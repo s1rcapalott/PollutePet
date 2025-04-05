@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   TouchableOpacity,
   ImageBackground,
@@ -46,16 +45,19 @@ const HomeScreen = ({ navigation }) => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({
+
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
   background: {
-    flex: 1, // Ensures the background covers the whole screen
-    justifyContent: "center", // Centers content vertically
-    alignItems: "center", // Centers content horizontally
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   container: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Transparent background to enhance text visibility
+    backgroundColor: "rgba(0,0,0,0.5)",
     borderRadius: 15,
     padding: 30,
   },
@@ -67,12 +69,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#fff", // White color for text on dark background
+    color: "#fff",
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
-    color: "#fff", // White color for subtitle
+    color: "#fff",
     textAlign: "center",
     marginBottom: 40,
   },
