@@ -1,45 +1,63 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/images/favicon.png")} // replace with your actual character image
-        style={styles.character}
-        resizeMode="contain"
-      />
-      <Text style={styles.title}>SmogSurvivor</Text>
-      <Text style={styles.subtitle}>
-        Can your character survive the years of pollution?
-      </Text>
+    <ImageBackground
+      source={require("../assets/images/cityBackground.png")} // Background image
+      style={styles.background} // Updated background styling
+      resizeMode="cover" // Ensures it covers the whole screen
+    >
+      <View style={styles.container}>
+        <Image
+          source={require("../assets/images/Pet.png")} // Character image
+          style={styles.character}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>PollutePet</Text>
+        <Text style={styles.subtitle}>
+          Can your character survive the years of pollution?
+        </Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Game")}
-      >
-        <Text style={styles.buttonText}>Start Journey</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Game")}
+        >
+          <Text style={styles.buttonText}>Start Journey</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.secondaryButton}
-        onPress={() => navigation.navigate("History")}
-      >
-        <Text style={styles.secondaryButtonText}>View Pollution History</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => navigation.navigate("History")}
+        >
+          <Text style={styles.secondaryButtonText}>View Pollution History</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1, // Ensures the background covers the whole screen
+    justifyContent: "center", // Centers content vertically
+    alignItems: "center", // Centers content horizontally
+  },
   container: {
-    flex: 1,
-    backgroundColor: "#f4f6f8",
-    alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Transparent background to enhance text visibility
+    borderRadius: 15,
+    padding: 30,
   },
   character: {
     width: 200,
@@ -49,12 +67,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#333",
+    color: "#fff", // White color for text on dark background
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
+    color: "#fff", // White color for subtitle
     textAlign: "center",
     marginBottom: 40,
   },
