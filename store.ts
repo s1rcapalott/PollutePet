@@ -1,7 +1,7 @@
 // src/store.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import metrics from "../app/data.json";   // ETL output
+import metrics from "./Data.json";   // ETL output
 
 type Metrics = { 
     Year: number; 
