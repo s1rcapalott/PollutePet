@@ -9,7 +9,7 @@ const HomeScreen = ({ navigation }) => {
         style={styles.character}
         resizeMode="contain"
       />
-      <Text style={styles.title}>SmogSurvivor</Text>
+      <Text style={styles.title}>PollutePet</Text>
       <Text style={styles.subtitle}>
         Can your character survive the years of pollution?
       </Text>
