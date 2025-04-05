@@ -1,110 +1,55 @@
-import json, requests, io, os, sys
-import pandas as pd
-from tqdm import tqdm
+import csv
+import json
+import os
+import sys
+from typing import List, Dict
 
+# ---------- Config ----------
+SELECTED_COUNTRY_FILE = "selected_country.txt"
+FOOD_CSV = "faoData.csv"
+AIR_CSV = "airquality.csv"
 OUT_FILE = os.path.join("app", "data.json")
-YEARS    = range(1925, 2026)      # inclusive 1925‑2025
 
-# ---------- helper functions  ----------
+# ---------- Utilities ----------
 def warn(msg: str):
     print(f"⚠️  {msg}", file=sys.stderr)
 
-def safe_fetch(fn, name):
-    """
-    Run fn() and return its result.
-    If it raises, log a warning and return an empty dict instead.
-    """
-    try:
-        return fn()
-    except Exception as e:
-        warn(f"{name} fetch failed → {e}")
-        return {}
+def read_selected_country() -> str:
+    if not os.path.exists(SELECTED_COUNTRY_FILE):
+        raise FileNotFoundError(f"{SELECTED_COUNTRY_FILE} not found.")
+    with open(SELECTED_COUNTRY_FILE, "r", encoding="utf-8") as f:
+        return f.read().strip()
 
-def forward_fill(series_dict, years):
-    out, last = {}, None
-    for y in years:
-        last = series_dict.get(y, last)
-        out[y] = last
-    return out
-
-# ---------- 1. air quality  ----------
-def fetch_pm25():
-    url = ("https://api.worldbank.org/v2/country/WLD/indicator/"
-           "EN.ATM.PM25.MC.M3?format=json&per_page=1000")
-    resp = requests.get(url, timeout=30)
-    resp.raise_for_status()                     # raise if HTTP 4xx/5xx
-    meta, rows = resp.json()
-    return {int(r["date"]): float(r["value"]) if r["value"] else None for r in rows}
-
-# ---------- 2.  Plastics production (OWID) ----------
-def fetch_plastics():
-    url = ("https://raw.githubusercontent.com/owid/"
-           "owid-datasets/master/datasets/Global%20plastics%20production"
-           "%20-%20Our%20World%20in%20Data/plastics-production.csv")
-    resp = requests.get(url, timeout=30)
-    resp.raise_for_status()
-    df  = pd.read_csv(io.StringIO(resp.text))
-    prod = dict(zip(df["Year"].astype(int), df["Plastics production"].astype(float)))
-
-    # cumulative proxy (optional)
-    cumulative, running = {}, 0.0
-    for y in sorted(prod):
-        running += prod[y]
-        cumulative[y] = running
-    return cumulative
-
-# ---------- 3.  Food‑waste & BOD from local CSVs ----------
-def load_local_csv(path, year_col, value_col):
+def filter_csv_by_country(path: str, country_col: str, selected_country: str) -> List[Dict]:
     if not os.path.exists(path):
-        raise FileNotFoundError(f"Missing local file: {path}")
-    df = pd.read_csv(path)
-    return dict(zip(df[year_col].astype(int), df[value_col].astype(float)))
+        raise FileNotFoundError(f"{path} not found.")
+    with open(path, newline='', encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        return [row for row in reader if row.get(country_col, "").strip().lower() == selected_country.lower()]
 
-def fetch_waste():
-    return load_local_csv("scripts/raw/FAO_Waste.csv", "Year", "Waste_pct")
+# ---------- Data Builder ----------
+def build_data():
+    country = read_selected_country()
+    food_data = filter_csv_by_country(FOOD_CSV, "country", country)
+    air_data = filter_csv_by_country(AIR_CSV, "Country Name", country)
 
-def fetch_bod():
-    return load_local_csv("scripts/raw/USGS_BOD.csv", "Year", "BOD_mgL")
+    return {
+        "selected_country": country,
+        "food_pollution": food_data,
+        "air_pollution": air_data,
+    }
 
-# ---------- 4.  Merge ----------
-def build_rows():
-    tasks = [
-        ("PM2.5",     fetch_pm25),
-        ("Plastics",  fetch_plastics),
-        ("FoodWaste", fetch_waste),
-        ("BOD",       fetch_bod),
-    ]
-
-    results = {}
-    for name, fn in tqdm(tasks, desc="Fetching datasets"):
-        results[name] = safe_fetch(fn, name)
-
-    pm25     = forward_fill(results["PM2.5"],     YEARS)
-    plastics = forward_fill(results["Plastics"],  YEARS)
-    waste    = forward_fill(results["FoodWaste"], YEARS)
-    bod      = forward_fill(results["BOD"],       YEARS)
-
-    return [{
-        "year":     y,
-        "pm25":     pm25[y],
-        "waste":    waste[y],
-        "bod":      bod[y],
-        "plastics": plastics[y],
-    } for y in YEARS]
-
-# ---------- 5.  Write file ----------
+# ---------- Main ----------
 def main():
     try:
-        rows = build_rows()
-        os.makedirs("app", exist_ok=True)
-        with open(OUT_FILE, "w") as f:
-            json.dump(rows, f, indent=2)
-        print(f"✅  Wrote {len(rows)} rows → {OUT_FILE}")
+        data = build_data()
+        os.makedirs(os.path.dirname(OUT_FILE), exist_ok=True)
+        with open(OUT_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        print(f"✅ Data written for {data['selected_country']} → {OUT_FILE}")
     except Exception as e:
-        # Catch any unexpected error so your build doesn’t silently fail
-        warn(f"Fatal error during data build → {e}")
-        sys.exit(1)   # non‑zero exit so CI / npm script knows something went wrong
+        warn(f"Build failed → {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
-#Run this python script in the config to ensure the data.json gets updated at the start of gameplay.
