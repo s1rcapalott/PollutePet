@@ -21,7 +21,6 @@ import {
   getUnseenRandomChoice,
 } from "../gameHelper";
 import ProgressBar from "./progressbar";
-import { determineEnding } from "../ending";
 
 const PlayScreen = ({ route }) => {
   interface Choice {
@@ -62,16 +61,47 @@ const PlayScreen = ({ route }) => {
   const [effectText, setEffectText] = useState(""); // State to store the effect text
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Only increment the year if the player isn't busy
-      if (!isBusy) {
-        setYear((prevYear) => prevYear + 1);
-        setIsBusy(true); // prevent more increments while handling the event
-      }
-    }, 1000); // or your desired interval
+    if (year !== 2000) {
+      const endType = determineEnding({
+        health,
+        happiness,
+        airPollution: pollutionLevel,
+        temperature,
+      });
 
-    return () => clearInterval(interval);
-  }, [isBusy]);
+      if (endType !== null) {
+        navigation.navigate("GameOver", { endType }); // Pass endType to the GameOver screen
+        return;
+      }
+
+      const msg =
+        pollutionLevel > 70
+          ? "The air is getting worse... people are coughing."
+          : health < 50
+          ? "Your community’s health is declining."
+          : "The city is doing okay... for now.";
+
+      setYearMessage(msg);
+      setYearModalVisible(true);
+
+      const timer = setTimeout(() => {
+        setYearModalVisible(false);
+
+        const newChoice = getUnseenRandomChoice(seenChoices);
+        if (newChoice) {
+          setCurrentChoice(newChoice);
+          setSeenChoices((prev) => new Set(prev).add(newChoice.prompt));
+          setIsModalVisible(true);
+        } else {
+          console.warn(
+            "All questions have been shown or getUnseenRandomChoice returned undefined"
+          );
+        }
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [year]);
 
   useEffect(() => {
     if (year !== 2000) {
