@@ -21,7 +21,7 @@ import {
 } from "../gameHelper";
 import ProgressBar from "./progressbar"; 
 import { determineEnding } from '../ending' 
-import tempData from '../temp.json';      // 🌡 Global temps from 1990–2020
+import tempData from '../temp.json';      
 import airData from '../airData.json';
 
 const PlayScreen = ({ route }) => {
@@ -58,7 +58,28 @@ const PlayScreen = ({ route }) => {
   const [yearModalVisible, setYearModalVisible] = useState(false);
   const [yearMessage, setYearMessage] = useState("");
   const [seenChoices, setSeenChoices] = useState(new Set());
+  const [temperature, setTemperature] = useState(0);
 
+
+  useEffect(() => {
+    const baseYear = 2000;
+  
+    //  Get base temp for 2000 from temp.json
+    const tempEntry = tempData.find(entry => entry.Year === baseYear);
+    if (tempEntry) {
+      setTemperature(parseFloat(tempEntry.Lowess_5.toFixed(3))); 
+    }
+  
+    
+    const cityEntry = airData.find(city => city.name === cityName);
+    const cityYearData = cityEntry?.data.find(d => d.year === baseYear);
+  
+    if (cityYearData) {
+      const normalizedPollution = Math.min((cityYearData.value / 300) * 100, 100); 
+      setPollutionLevel(normalizedPollution);
+    }
+  }, []);
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setYear((prevYear) => prevYear + 1);
@@ -67,19 +88,34 @@ const PlayScreen = ({ route }) => {
   }, []);
 
   useEffect(() => {
-    // Only run when year changes
     if (year !== 2000) {
+     
+      const tempEntry = tempData.find(entry => entry.Year === year);
+      if (tempEntry) {
+        setTemperature(prev => {
+          const base = tempEntry.Lowess_5;
+          const diff = 0.01 + (pollutionLevel * 0.001); // increase based on pollution
+          return parseFloat((base + diff).toFixed(3));
+        });
+      }
+      
       const msg =
         pollutionLevel > 70
           ? "The air is getting worse... people are coughing."
           : health < 50
           ? "Your community’s health is declining."
           : "The city is doing okay... for now.";
+  
+      setYearMessage(msg);
+      setYearModalVisible(true);
+  
+
+  
 
       setYearMessage(msg);
       setYearModalVisible(true);
 
-      // Set the timer to show the modal for a few seconds before continuing
+     
       const timer = setTimeout(() => {
         setYearModalVisible(false);
 

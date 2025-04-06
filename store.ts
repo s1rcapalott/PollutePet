@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import tempData from "../PollutePet/temp.json";
-import countryData from "../PollutePet/data.json";
+import countryData from "../PollutePet/airData.json";
 
 type TempEntry = { Year: number; No_Smoothing: number };
 type CountryYearData = { year: number; value: number };
