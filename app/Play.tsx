@@ -21,9 +21,9 @@ import {
   getUnseenRandomChoice,
 } from "../gameHelper";
 import ProgressBar from "./progressbar";
-import { determineEnding } from "../ending";
-import tempData from '../temp.json';      
-import airData from '../airData.json';
+import { determineEnding } from "@/ending";
+import tempData from "../temp.json";
+import airData from "../airData.json";
 
 const PlayScreen = ({ route }) => {
   interface Choice {
@@ -51,6 +51,8 @@ const PlayScreen = ({ route }) => {
   const { cityName } = route.params;
 
   const [health, setHealth] = useState(100);
+  const [happiness, setHappiness] = useState(100);
+  const [temperature, setTemperature] = useState(60);
   const [pollutionLevel, setPollutionLevel] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(0));
   const [currentChoice, setCurrentChoice] = useState<Choice | null>(null);
@@ -59,62 +61,91 @@ const PlayScreen = ({ route }) => {
   const [yearModalVisible, setYearModalVisible] = useState(false);
   const [yearMessage, setYearMessage] = useState("");
   const [seenChoices, setSeenChoices] = useState(new Set());
-  const [temperature, setTemperature] = useState(0);
-
-
-  useEffect(() => {
-    const baseYear = 2000;
-  
-    //  Get base temp for 2000 from temp.json
-    const tempEntry = tempData.find(entry => entry.Year === baseYear);
-    if (tempEntry) {
-      setTemperature(parseFloat(tempEntry.Lowess_5.toFixed(3))); 
-    }
-  
-    
-    const cityEntry = airData.find(city => city.name === cityName);
-    const cityYearData = cityEntry?.data.find(d => d.year === baseYear);
-  
-    if (cityYearData) {
-      const normalizedPollution = Math.min((cityYearData.value / 300) * 100, 100); 
-      setPollutionLevel(normalizedPollution);
-    }
-  }, []);
-    const [isBusy, setIsBusy] = useState(false); // Track if the player is busy with an action
+  const [isBusy, setIsBusy] = useState(false); // Track if the player is busy with an action
   const [showEffectText, setShowEffectText] = useState(false); // State to control showing the effect text
   const [effectText, setEffectText] = useState(""); // State to store the effect text
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Only increment the year if the player isn't busy
-      if (!isBusy) {
-        setYear((prevYear) => prevYear + 1);
-        setIsBusy(true); // prevent more increments while handling the event
-      }
-    }, 1000); // or your desired interval
+    const baseYear = 2000;
 
-    return () => clearInterval(interval);
-  }, [isBusy]);
+    //  Get base temp for 2000 from temp.json
+    const tempEntry = tempData.find((entry) => entry.Year === baseYear);
+    if (tempEntry) {
+      setTemperature(parseFloat(tempEntry.Lowess_5.toFixed(3)));
+    }
+
+    const cityEntry = airData.find((city) => city.name === cityName);
+    const cityYearData = cityEntry?.data.find((d) => d.year === baseYear);
+
+    if (cityYearData) {
+      const normalizedPollution = Math.min(
+        (cityYearData.value / 300) * 100,
+        100
+      );
+      setPollutionLevel(normalizedPollution);
+    }
+  }, []);
 
   useEffect(() => {
     if (year !== 2000) {
-     
-      const tempEntry = tempData.find(entry => entry.Year === year);
+      const tempEntry = tempData.find((entry) => entry.Year === year);
       if (tempEntry) {
-        setTemperature(prev => {
+        setTemperature((prev) => {
           const base = tempEntry.Lowess_5;
-          const diff = 0.01 + (pollutionLevel * 0.001); // increase based on pollution
+          const diff = 0.01 + pollutionLevel * 0.001; // increase based on pollution
           return parseFloat((base + diff).toFixed(3));
         });
       }
-      
+      const endType = determineEnding({
+        health,
+        happiness,
+        airPollution: pollutionLevel,
+        temperature,
+      });
+
+      if (endType !== null) {
+        navigation.navigate("GameOver", { endType }); // Pass endType to the GameOver screen
+        return;
+      }
+
       const msg =
         pollutionLevel > 70
           ? "The air is getting worse... people are coughing."
           : health < 50
-          ? "Your community's health is declining."
+          ? "Your community’s health is declining."
           : "The city is doing okay... for now.";
-  
+
+      setYearMessage(msg);
+      setYearModalVisible(true);
+
+      const timer = setTimeout(() => {
+        setYearModalVisible(false);
+
+        const newChoice = getUnseenRandomChoice(seenChoices);
+        if (newChoice) {
+          setCurrentChoice(newChoice);
+          setSeenChoices((prev) => new Set(prev).add(newChoice.prompt));
+          setIsModalVisible(true);
+        } else {
+          console.warn(
+            "All questions have been shown or getUnseenRandomChoice returned undefined"
+          );
+        }
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [year]);
+
+  useEffect(() => {
+    if (year !== 2000) {
+      const msg =
+        pollutionLevel > 70
+          ? "The air is getting worse... people are coughing."
+          : health < 50
+          ? "Your community’s health is declining."
+          : "The city is doing okay... for now.";
+
       setYearMessage(msg);
       setYearModalVisible(true);
 
@@ -153,11 +184,31 @@ const PlayScreen = ({ route }) => {
           style={commonStyles.character}
           resizeMode="contain"
         />
-        
-        <ProgressBar label="Health" value={health} icon="heart" color="#f44336" />
-        <ProgressBar label="Air Quality" value={pollutionLevel} icon="cloud" color="#9E9E9E" />
-        <ProgressBar label="Happiness" value={100 - pollutionLevel} icon="smile-o" color="#FFEB3B" />
-        <ProgressBar label="Global Temp" value={temperature} max={2.0} icon="thermometer-half" color="#FF5722" />
+        <ProgressBar
+          label="Health"
+          value={health}
+          icon="heart"
+          color="#f44336"
+        />
+        <ProgressBar
+          label="Air Quality"
+          value={pollutionLevel}
+          icon="cloud"
+          color="#9E9E9E"
+        />
+        <ProgressBar
+          label="Happiness"
+          value={100 - pollutionLevel}
+          icon="smile-o"
+          color="#FFEB3B"
+        />
+        <ProgressBar
+          label="Global Temp"
+          value={temperature}
+          max={2.0}
+          icon="thermometer-half"
+          color="#FF5722"
+        />
         <Text style={commonStyles.stats}>Year: {year}</Text>
 
         <Modal visible={yearModalVisible} transparent animationType="fade">
