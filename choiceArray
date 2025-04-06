@@ -162,5 +162,106 @@ export const linkedChoices = [
     }
   },
 
+  {
+    prompt: "An energy company offers you free unlimited electricity...from coal.",
+
+    option1: {
+      description: "Accept and enjoy unlimited power",
+      image: require("@/assets/images/coalpower.webp"),
+      healthEffect: -3,
+      pollutionEffect: 9,
+      happinessEffect: 5,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Invest in solar panels instead",
+      image: require("@/assets/images/solarpanel.jpg"),
+      healtEffect: 4,
+      pollutionEffect: -4,
+      happinessEffect: 3,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+  {
+    prompt: "It's grocery day! Your pet is excited for some snacks! How will you shop?",
+
+    option1: {
+      description: "Order everything online with express delivery",
+      image: require("@/assets/images/grocerydelivery.jpg"),
+      healthEffect: -1,
+      pollutionEffect: 5,
+      happinessEffect: 3,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Walk to the local market with reusable bags",
+      image: require("@assets/images.farmerswalk.png"),
+      healtEffect: 2,
+      pollutionEffect: -2,
+      happinessEffect: 2,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+  {
+    prompt: "Your pet accidentally dropped its phone, now you have to buy a new one. What do you decide?",
+
+    option1: {
+      description: "Get the latest model and throw away the old one",
+      image: require("@/assets/images/newphone.webp"),
+      healthEffect: -2,
+      pollutionEffect: 4,
+      happinessEffect: 4,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Buy a refurbished phone and recycle your old one",
+      image: require("@/assets/images/refurbished.webp"),
+      healthEffect: -2,
+      pollutionEffect: -3,
+      happinessEffect: -2,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+  {
+    prompt: "You're going to be busy this whole week so you decide to meal plan. Which choice would you take?",
+
+    option1: {
+      description: "Buy lots of meat and packaged frozen meals",
+      image: require("@/assets/images/frozenmeat.jpg"),
+      healtEffect: 2,
+      pollutionEffect: 6,
+      happinessEffect: 5,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      desctription: "Plan a mostly plant-based, low-waste menu",
+      image: require("@/assets/images/plantbased.jpg"),
+      healthEffect: 5,
+      pollutionEffect: -4,
+      happinessEffect: 4,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+  {
+    prompt: "You are headed to to a pet shop to get your pet groomed, but you are running late to your appointment. How will you get there?",
+
+    option1: {
+      description: "Drive your car fast",
+      image: require('@/assets/images/speeding.jpg'),
+      healthEffect: 6,
+      happinessEffect: 5,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Take public transportation",
+      image: require("@/assets/images/publictransport.jpg"),
+      healthEffect: 2,
+      pollutionEffect: -3,
+      happinessEffect: 1,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+
+
   // Add more linked choices as needed
 ];
