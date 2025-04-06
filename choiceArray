@@ -249,6 +249,7 @@ export const linkedChoices = [
       description: "Drive your car fast",
       image: require('@/assets/images/speeding.jpg'),
       healthEffect: 6,
+      pollutionEffect: 6,
       happinessEffect: 5,
       temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
     },
@@ -261,6 +262,47 @@ export const linkedChoices = [
       temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
     }
   },
+  {
+    prompt: "You and your pet are doing spring cleaning. How will you deal with the old clothes and toys?",
+
+    option1: {
+      description: "Throw them all in the trash",
+      image: require('@/assets/images/clothestrash.jpg'),
+      healthEffect: -2,
+      pollutionEffect: 5,
+      happinessEffect: 1,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Donate or repurpose them into rags or crafts",
+      image: require("@/assets/images/donateclothes.jpg"),
+      healthEffect: 2,
+      pollutionEffect: -3,
+      happinessEffect: 3,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+  {
+    prompt: "You're planning a weekend gataway for you and your pet. What do you book?",
+
+    option1: {
+      description: "Round-trip flight to a distant city",
+      image: require('@/assets/images/airtravel.jpg'),
+      healthEffect: -2,
+      pollutionEffect: 7,
+      happinessEffect: 5,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Road trip to a nearby nature spot",
+      image: require("@/assets/images/nature.jpg"),
+      healthEffect: 3,
+      pollutionEffect: -1,
+      happinessEffect: 4,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+
 
 
   // Add more linked choices as needed
