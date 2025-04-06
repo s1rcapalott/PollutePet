@@ -8,32 +8,15 @@ import {
   ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const PlayScreen = () => {
+// Dummy state for health and pollution levels
+const PlayScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { cityName } = route.params;
 
-  // Dummy state for health and pollution levels
-  const [selectedLocation, setSelectedLocation] = useState("");
+  // Move the useState hooks inside the component
   const [health, setHealth] = useState(100);
   const [pollutionLevel, setPollutionLevel] = useState(0);
-
-  useEffect(() => {
-    const getSavedLocation = async () => {
-      try {
-        const savedLocation = await AsyncStorage.getItem("selectedLocation");
-        if (savedLocation) {
-          setSelectedLocation(savedLocation); // Set the saved location in state
-        } else {
-          // Handle case when no city is selected (maybe show an alert or redirect)
-          console.log("No city selected");
-        }
-      } catch (error) {
-        console.error("Error fetching saved location:", error);
-      }
-    };
-    getSavedLocation(); // Call the function to get saved location on mount
-  }, []);
 
   // Function to simulate the pollution affecting health
   const increasePollution = () => {
@@ -61,7 +44,7 @@ const PlayScreen = () => {
           style={styles.character}
           resizeMode="contain"
         />
-        <Text style={styles.title}>{selectedLocation}</Text>
+        <Text style={styles.title}>{cityName}</Text>
 
         {/* Display health and pollution stats */}
         <Text style={styles.stats}>Health: {health}%</Text>
@@ -84,9 +67,9 @@ const PlayScreen = () => {
 
         <TouchableOpacity
           style={styles.exitButton}
-          onPress={() => navigation.navigate("HomeScreen")} // Goes back to home screen
+          onPress={() => navigation.navigate("Home")} // Goes back to home screen
         >
-          <Text style={styles.exitButtonText}>Exit Game</Text>
+          <Text style={styles.exitButtonText}>Back to Main Menu</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
