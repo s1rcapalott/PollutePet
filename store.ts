@@ -1,50 +1,84 @@
-// src/store.ts
+// store.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import tempData from "../PollutePet/temp.json";
+import countryData from "../PollutePet/data.json";
 
-import metrics from "./Data.json";   // ETL output
-
-
-type Metrics = { 
-    Year: number; 
-    pm25: number; 
-    FoodWaste: number; 
-    WaterPollution: number; 
-    Plastics: number };
+type TempEntry = { Year: number; No_Smoothing: number };
+type CountryYearData = { year: number; value: number };
+type CountryDataEntry = { name: string; code: string; data: CountryYearData[] };
 
 interface GameState {
   year: number;
-  breathing: number;
-  hydration: number;
+  location: string;
+  health: number;
+  pollution: number;
   happiness: number;
-  shownEvents: Record<number, boolean>;   // story events already shown?
+  tickSpeed: number; // milliseconds per tick
+  setLocation: (location: string) => void;
   tick: () => void;
+  startGameLoop: () => void;
+  stopGameLoop: () => void;
+  isRunning: boolean;
 }
 
-const metricsByYear = new Map<number, Metrics>(
-  (metrics as Metrics[]).map(m => [m.Year, m])
-);
+let intervalId: NodeJS.Timeout | null = null;
 
 export const useGame = create<GameState>()(
   persist(
     (set, get) => ({
-      year: 1925,
-      breathing: 100,
-      hydration: 100,
+      year: 1990,
+      location: "",
+      health: 100,
+      pollution: 0,
       happiness: 100,
-      shownEvents: {},
+      tickSpeed: 15000, // 1 year every 15 seconds
+      isRunning: false,
+
+      setLocation: (location) => set({ location }),
+
       tick: () => {
-        const next = get().year + 1;
-        const m = metricsByYear.get(next);
-        if (!m) return;                         // reached 2025
-        set(state => ({
-          year: next,
-          breathing: Math.max(0, state.breathing + (m.pm25 > 50 ? -2 : -1)),
-          hydration: Math.max(0, state.hydration + (m.WaterPollution > 6 ? -2 : -1)),
-          happiness: Math.max(0, state.happiness + (m.Plastics > 1 ? -1 : 0)),
-        }));
+        const { year, location, health, pollution, happiness } = get();
+        const nextYear = year + 1;
+        if (nextYear > 2020) {
+          get().stopGameLoop();
+          return;
+        }
+
+        const temp = (tempData as TempEntry[]).find(t => t.Year === nextYear);
+        const country = (countryData as CountryDataEntry[]).find(c => c.name === location);
+        const countryYearValue = country?.data.find(d => d.year === nextYear)?.value ?? 0;
+
+        const tempEffect = temp ? temp.No_Smoothing * 10 : 0;
+        const pollutionEffect = countryYearValue;
+
+        const newHealth = Math.max(0, health - tempEffect - pollutionEffect / 10);
+        const newHappiness = Math.max(0, happiness - pollutionEffect / 20);
+        const newPollution = Math.min(100, pollution + pollutionEffect / 5);
+
+        set({
+          year: nextYear,
+          health: newHealth,
+          happiness: newHappiness,
+          pollution: newPollution,
+        });
+      },
+
+      startGameLoop: () => {
+        if (intervalId) return;
+        const tickSpeed = get().tickSpeed;
+        intervalId = setInterval(() => get().tick(), tickSpeed);
+        set({ isRunning: true });
+      },
+
+      stopGameLoop: () => {
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+          set({ isRunning: false });
+        }
       },
     }),
-    { name: "pollute-pet" }                     // AsyncStorage key
+    { name: "pollute-pet" }
   )
 );

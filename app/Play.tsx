@@ -10,6 +10,9 @@ import {
   Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import ProgressBar from "./progressbar"; // Importing the ProgressBar component
+
+// Dummy state for health and pollution levels
 import { choiceArray } from "../choiceArray"; // Ensure this import is correct
 import {
   increasePollution,
@@ -78,11 +81,37 @@ const PlayScreen = ({ route }) => {
           resizeMode="contain"
         />
         <Text style={styles.title}>{cityName}</Text>
-
+        {/* Display health and pollution stats */}
+        <ProgressBar
+          label="Health"
+          value={health}
+          icon="heart"
+          color="#f44336"
+        />
+        <ProgressBar
+          label="Pollution"
+          value={pollutionLevel}
+          icon="cloud"
+          color="#9E9E9E"
+        />
+        <ProgressBar
+          label="Happiness"
+          value={100 - pollutionLevel}
+          icon="smile-o"
+          color="#FFEB3B"
+        />
+        <ProgressBar
+          label="Temperature"
+          value={Math.random() * 100}
+          icon="thermometer-half"
+          color="#FF9800"
+        />
+        // Display the stats using a progress bar. // Later, replace this with
+        actual data — likely async state variables.
+        {/* Buttons for gameplay */}
         <Text style={styles.stats}>Health: {health}%</Text>
         <Text style={styles.stats}>Pollution Level: {pollutionLevel}%</Text>
         <Text style={styles.stats}>Year: {year}</Text>
-
         <Modal visible={yearModalVisible} transparent animationType="fade">
           <View style={styles.yearModalOverlay}>
             <View style={styles.yearModalContainer}>
@@ -91,7 +120,6 @@ const PlayScreen = ({ route }) => {
             </View>
           </View>
         </Modal>
-
         <Modal
           visible={isModalVisible}
           animationType="slide"
@@ -148,7 +176,6 @@ const PlayScreen = ({ route }) => {
             </View>
           </View>
         </Modal>
-
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
@@ -162,14 +189,12 @@ const PlayScreen = ({ route }) => {
         >
           <Text style={styles.buttonText}>Increase Pollution</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={styles.secondaryButton}
           onPress={() => resetGame(setHealth, setPollutionLevel)}
         >
           <Text style={styles.secondaryButtonText}>Reset Game</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={styles.exitButton}
           onPress={() => navigation.navigate("Home")}
