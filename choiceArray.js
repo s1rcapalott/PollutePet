@@ -1,15 +1,15 @@
 // choices.js
-export const linkedChoices = [
+export const choiceArray = [
   {
     option1: {
       description: "Eat the cake",
-      image: require("../assets/images/cake.png"),
+      image: require("@/assets/images/cake.webp"),
       healthEffect: -10,
       pollutionEffect: 5,
     },
     option2: {
       description: "Don't eat the cake",
-      image: require("../assets/images/noCake.png"),
+      image: require("@/assets/images/cake.webp"),
       healthEffect: 5,
       pollutionEffect: 0,
     },
@@ -17,13 +17,13 @@ export const linkedChoices = [
   {
     option1: {
       description: "Walk in the park",
-      image: require("../assets/images/park.png"),
+      image: require("@/assets/images/cake.webp"),
       healthEffect: 20,
       pollutionEffect: -5,
     },
     option2: {
       description: "Stay indoors",
-      image: require("../assets/images/indoor.png"),
+      image: require("@/assets/images/cake.webp"),
       healthEffect: 10,
       pollutionEffect: 2,
     },
