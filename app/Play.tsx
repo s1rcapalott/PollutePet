@@ -153,7 +153,7 @@ const PlayScreen = ({ route }) => {
           style={commonStyles.character}
           resizeMode="contain"
         />
-        <Text style={styles.title}>{cityName}</Text>
+        
         <ProgressBar label="Health" value={health} icon="heart" color="#f44336" />
         <ProgressBar label="Air Quality" value={pollutionLevel} icon="cloud" color="#9E9E9E" />
         <ProgressBar label="Happiness" value={100 - pollutionLevel} icon="smile-o" color="#FFEB3B" />
