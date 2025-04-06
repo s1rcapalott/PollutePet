@@ -6,7 +6,7 @@ export const linkedChoices = [
     option1: {
       description: "Drive to school",
       image: require("@/assets/images/driving.jpg"),
-      healthEffect: -3,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -38,7 +38,7 @@ export const linkedChoices = [
     option2: {
       description: "Go on a motorcycle in the dunes",
       image: require("@/assets/images/motorcycle.jpg"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 6,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -74,7 +74,7 @@ export const linkedChoices = [
     option1: {
       description: "Burn down a nuclear power plant",
       image: require("@/assets/images/nuclearpowerplant.jpg"),
-      healthEffect: -6,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -119,7 +119,7 @@ export const linkedChoices = [
     option1: {
       description: "Keep buying the toy because it makes your pet happy.",
       image: require("@/assets/images/pettoy.jpg"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 3,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -150,7 +150,7 @@ export const linkedChoices = [
     option2: {
       description: "Invest early and earn big returns, make it easy to provide for your pet.",
       image: require("@/assets/images/luxurycondos.png"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -163,7 +163,7 @@ export const linkedChoices = [
     option1: {
       description: "Go ahead and build the house",
       image: require("@/assets/images/treecutting.jpg"),
-      healthEffect: -5,
+      healthEffect: -10,
       pollutionEffect: 6,
       happinessEffect: 7,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -186,7 +186,7 @@ export const linkedChoices = [
     option1: {
       description: "Accept and enjoy unlimited power",
       image: require("@/assets/images/coalpower.webp"),
-      healthEffect: -3,
+      healthEffect: -10,
       pollutionEffect: 9,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -208,7 +208,7 @@ export const linkedChoices = [
     option1: {
       description: "Order everything online with express delivery",
       image: require("@/assets/images/grocerydelivery.jpg"),
-      healthEffect: -1,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 3,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -230,7 +230,7 @@ export const linkedChoices = [
     option1: {
       description: "Get the latest model and throw away the old one",
       image: require("@/assets/images/newphone.webp"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 4,
       happinessEffect: 4,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -239,7 +239,7 @@ export const linkedChoices = [
     option2: {
       description: "Buy a refurbished phone and recycle your old one",
       image: require("@/assets/images/refurbished.webp"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: -3,
       happinessEffect: -2,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -296,7 +296,7 @@ export const linkedChoices = [
     option1: {
       description: "Throw them all in the trash",
       image: require('@/assets/images/clothestrash.jpg'),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 1,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -318,7 +318,7 @@ export const linkedChoices = [
     option1: {
       description: "Round-trip flight to a distant city",
       image: require('@/assets/images/airtravel.jpg'),
-      healthEffect: -2,
+      healthEffect: -5,
       pollutionEffect: 7,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
