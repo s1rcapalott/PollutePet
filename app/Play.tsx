@@ -19,6 +19,8 @@ import {
   applyChoiceEffect,
   getUnseenRandomChoice,
 } from "../gameHelper";
+import ProgressBar from "./progressbar"; 
+import { determineEnding } from '../ending' 
 
 const PlayScreen = ({ route }) => {
   interface Choice {
