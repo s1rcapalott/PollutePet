@@ -64,7 +64,7 @@ const PlayScreen = ({ route }) => {
         setYear((prevYear) => prevYear + 1);
         setIsBusy(true); // prevent more increments while handling the event
       }
-    }, 1000); // or your desired interval
+    }, 10000); // or your desired interval
 
     return () => clearInterval(interval);
   }, [isBusy]);
