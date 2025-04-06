@@ -66,76 +66,38 @@ const PlayScreen = ({ route }) => {
   const [effectText, setEffectText] = useState(""); // State to store the effect text
 
   useEffect(() => {
-    const baseYear = 2000;
-
-    //  Get base temp for 2000 from temp.json
-    const tempEntry = tempData.find((entry) => entry.Year === baseYear);
-    if (tempEntry) {
-      setTemperature(parseFloat(tempEntry.Lowess_5.toFixed(3)));
-    }
-
-    const cityEntry = airData.find((city) => city.name === cityName);
-    const cityYearData = cityEntry?.data.find((d) => d.year === baseYear);
-
-    if (cityYearData) {
-      const normalizedPollution = Math.min(
-        (cityYearData.value / 300) * 100,
-        100
-      );
-      setPollutionLevel(normalizedPollution);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (year !== 2000) {
-      const tempEntry = tempData.find((entry) => entry.Year === year);
-      if (tempEntry) {
-        setTemperature((prev) => {
-          const base = tempEntry.Lowess_5;
-          const diff = 0.01 + pollutionLevel * 0.001; // increase based on pollution
-          return parseFloat((base + diff).toFixed(3));
-        });
-      }
-      const endType = determineEnding({
-        health,
-        happiness,
-        airPollution: pollutionLevel,
-        temperature,
-      });
-
-      if (endType !== null) {
-        navigation.navigate("GameOver", { endType }); // Pass endType to the GameOver screen
-        return;
-      }
-
-      const msg =
-        pollutionLevel > 70
-          ? "The air is getting worse... people are coughing."
-          : health < 50
-          ? "Your community’s health is declining."
-          : "The city is doing okay... for now.";
-
-      setYearMessage(msg);
-      setYearModalVisible(true);
-
-      const timer = setTimeout(() => {
-        setYearModalVisible(false);
-
-        const newChoice = getUnseenRandomChoice(seenChoices);
-        if (newChoice) {
-          setCurrentChoice(newChoice);
-          setSeenChoices((prev) => new Set(prev).add(newChoice.prompt));
-          setIsModalVisible(true);
-        } else {
-          console.warn(
-            "All questions have been shown or getUnseenRandomChoice returned undefined"
-          );
+    const interval = setInterval(() => {
+      if (!isBusy) {
+        const tempEntry = tempData.find((entry) => entry.Year === year);
+        if (tempEntry) {
+          setTemperature(() => {
+            const base = tempEntry.Lowess_5;
+            const diff = 0.01 + pollutionLevel * 0.001;
+            return parseFloat((base + diff).toFixed(3));
+          });
         }
-      }, 2000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [year]);
+        const endType = determineEnding({
+          health,
+          happiness,
+          airPollution: pollutionLevel,
+          temperature,
+          year,
+        });
+
+        if (endType !== "going") {
+          resetGame();
+          navigation.navigate("GameOver", { endType });
+          return;
+        }
+
+        setYear((prevYear) => prevYear + 1);
+        setIsBusy(true); // block until modal/choice done
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isBusy]);
 
   useEffect(() => {
     if (year !== 2000) {
@@ -252,7 +214,7 @@ const PlayScreen = ({ route }) => {
                         setEffectText,
                         setIsBusy
                       );
-                      setIsBusy(true); // Set isBusy to true to avoid new input during effect text display
+                      setIsBusy(false); // Set isBusy to true to avoid new input during effect text display
                     }}
                   >
                     <Image
@@ -279,7 +241,7 @@ const PlayScreen = ({ route }) => {
                         setEffectText,
                         setIsBusy
                       );
-                      setIsBusy(true); // Set isBusy to true to avoid new input during effect text display
+                      setIsBusy(false); // Set isBusy to true to avoid new input during effect text display
                     }}
                   >
                     <Image
