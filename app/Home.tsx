@@ -11,13 +11,13 @@ import {
 const HomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
-      source={require("../assets/images/cityBackground.png")} // Background image
+      source={require("../assets/images/niceCity.png")} // Background image
       style={styles.background} // Updated background styling
       resizeMode="cover" // Ensures it covers the whole screen
     >
       <View style={styles.container}>
         <Image
-          source={require("../assets/images/Pet.png")} // Character image
+          source={require("../assets/images/happyPet.png")} // Character image
           style={styles.character}
           resizeMode="contain"
         />
