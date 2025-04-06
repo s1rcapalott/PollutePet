@@ -19,6 +19,7 @@ import {
   applyChoiceEffect,
   getUnseenRandomChoice,
 } from "../gameHelper";
+import ProgressBar from "./progressbar";
 
 const PlayScreen = ({ route }) => {
   interface Choice {
@@ -54,16 +55,21 @@ const PlayScreen = ({ route }) => {
   const [yearModalVisible, setYearModalVisible] = useState(false);
   const [yearMessage, setYearMessage] = useState("");
   const [seenChoices, setSeenChoices] = useState(new Set());
+  const [isBusy, setIsBusy] = useState(false); // Track if the player is busy with an action
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setYear((prevYear) => prevYear + 1);
-    }, 6000);
+      // Only increment the year if the player isn't busy
+      if (!isBusy) {
+        setYear((prevYear) => prevYear + 1);
+        setIsBusy(true); // prevent more increments while handling the event
+      }
+    }, 1000); // or your desired interval
+
     return () => clearInterval(interval);
-  }, []);
+  }, [isBusy]);
 
   useEffect(() => {
-    // Only run when year changes
     if (year !== 2000) {
       const msg =
         pollutionLevel > 70
@@ -75,14 +81,13 @@ const PlayScreen = ({ route }) => {
       setYearMessage(msg);
       setYearModalVisible(true);
 
-      // Set the timer to show the modal for a few seconds before continuing
       const timer = setTimeout(() => {
         setYearModalVisible(false);
 
         const newChoice = getUnseenRandomChoice(seenChoices);
         if (newChoice) {
           setCurrentChoice(newChoice);
-          setSeenChoices((prev) => new Set(prev).add(newChoice.prompt)); // track it as seen
+          setSeenChoices((prev) => new Set(prev).add(newChoice.prompt));
           setIsModalVisible(true);
         } else {
           console.warn(
@@ -91,10 +96,9 @@ const PlayScreen = ({ route }) => {
         }
       }, 3500);
 
-      // Cleanup function to clear the timeout when the component unmounts or when `year` changes
       return () => clearTimeout(timer);
     }
-  }, [year, seenChoices, health, pollutionLevel]);
+  }, [year]);
 
   useEffect(() => {
     fadeIn(fadeAnim);
@@ -139,7 +143,7 @@ const PlayScreen = ({ route }) => {
 
               <TouchableOpacity
                 style={styles.choiceSide}
-                onPress={() =>
+                onPress={() => {
                   applyChoiceEffect(
                     currentChoice?.option1,
                     health,
@@ -148,8 +152,9 @@ const PlayScreen = ({ route }) => {
                     setPollutionLevel,
                     setCurrentChoice,
                     setIsModalVisible
-                  )
-                }
+                  );
+                  setIsBusy(false);
+                }}
               >
                 <Image
                   source={currentChoice?.option1.image}
@@ -162,7 +167,7 @@ const PlayScreen = ({ route }) => {
 
               <TouchableOpacity
                 style={styles.choiceSide}
-                onPress={() =>
+                onPress={() => {
                   applyChoiceEffect(
                     currentChoice?.option2,
                     health,
@@ -171,8 +176,9 @@ const PlayScreen = ({ route }) => {
                     setPollutionLevel,
                     setCurrentChoice,
                     setIsModalVisible
-                  )
-                }
+                  );
+                  setIsBusy(false);
+                }}
               >
                 <Image
                   source={currentChoice?.option2.image}
