@@ -10,6 +10,7 @@ import {
   Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { commonStyles } from "@/commonStyles";
 import { linkedChoices } from "../choiceArray";
 import {
   increasePollution,
@@ -20,6 +21,7 @@ import {
   getUnseenRandomChoice,
 } from "../gameHelper";
 import ProgressBar from "./progressbar";
+import ChoiceModal from "@/choiceModal";
 
 const PlayScreen = ({ route }) => {
   interface Choice {
@@ -56,6 +58,8 @@ const PlayScreen = ({ route }) => {
   const [yearMessage, setYearMessage] = useState("");
   const [seenChoices, setSeenChoices] = useState(new Set());
   const [isBusy, setIsBusy] = useState(false); // Track if the player is busy with an action
+  const [showEffectText, setShowEffectText] = useState(false); // State to control showing the effect text
+  const [effectText, setEffectText] = useState(""); // State to store the effect text
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,7 +68,7 @@ const PlayScreen = ({ route }) => {
         setYear((prevYear) => prevYear + 1);
         setIsBusy(true); // prevent more increments while handling the event
       }
-    }, 10000); // or your desired interval
+    }, 1000); // or your desired interval
 
     return () => clearInterval(interval);
   }, [isBusy]);
@@ -94,7 +98,7 @@ const PlayScreen = ({ route }) => {
             "All questions have been shown or getUnseenRandomChoice returned undefined"
           );
         }
-      }, 3500);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
@@ -107,25 +111,27 @@ const PlayScreen = ({ route }) => {
   return (
     <ImageBackground
       source={getBackgroundImage(pollutionLevel)}
-      style={styles.background}
+      style={commonStyles.background}
       resizeMode="cover"
     >
-      <View style={styles.container}>
+      <View style={commonStyles.container}>
         <Image
           source={require("../assets/images/happyPet.png")}
-          style={styles.character}
+          style={commonStyles.character}
           resizeMode="contain"
         />
-        <Text style={styles.title}>{cityName}</Text>
-        <Text style={styles.stats}>Health: {health}%</Text>
-        <Text style={styles.stats}>Pollution Level: {pollutionLevel}%</Text>
-        <Text style={styles.stats}>Year: {year}</Text>
+        <Text style={commonStyles.title}>{cityName}</Text>
+        <Text style={commonStyles.stats}>Health: {health}%</Text>
+        <Text style={commonStyles.stats}>
+          Pollution Level: {pollutionLevel}%
+        </Text>
+        <Text style={commonStyles.stats}>Year: {year}</Text>
 
         <Modal visible={yearModalVisible} transparent animationType="fade">
-          <View style={styles.yearModalOverlay}>
-            <View style={styles.yearModalContainer}>
-              <Text style={styles.yearText}>Year: {year}</Text>
-              <Text style={styles.yearMessage}>{yearMessage}</Text>
+          <View style={commonStyles.yearModalOverlay}>
+            <View style={commonStyles.yearModalContainer}>
+              <Text style={commonStyles.yearText}>Year: {year}</Text>
+              <Text style={commonStyles.yearMessage}>{yearMessage}</Text>
             </View>
           </View>
         </Modal>
@@ -136,64 +142,78 @@ const PlayScreen = ({ route }) => {
           transparent={true}
           onRequestClose={() => setIsModalVisible(false)}
         >
-          <View style={styles.modalOverlay}>
-            <Text style={styles.promptText}>{currentChoice?.prompt}</Text>
-            <View style={styles.choicesContainer}>
-              {/* 🔥 Add the prompt text here */}
-
-              <TouchableOpacity
-                style={styles.choiceSide}
-                onPress={() => {
-                  applyChoiceEffect(
-                    currentChoice?.option1,
-                    health,
-                    setHealth,
-                    pollutionLevel,
-                    setPollutionLevel,
-                    setCurrentChoice,
-                    setIsModalVisible
-                  );
-                  setIsBusy(false);
-                }}
-              >
-                <Image
-                  source={currentChoice?.option1.image}
-                  style={styles.optionImage}
-                />
-                <Text style={styles.optionDescription}>
-                  {currentChoice?.option1.description}
+          <View style={commonStyles.modalOverlay}>
+            {showEffectText ? (
+              // Show the effect text in the center
+              <Text style={commonStyles.effectText}>{effectText}</Text>
+            ) : (
+              // Show the normal modal content (choices)
+              <>
+                <Text style={commonStyles.promptText}>
+                  {currentChoice?.prompt}
                 </Text>
-              </TouchableOpacity>
+                <View style={commonStyles.choicesContainer}>
+                  <TouchableOpacity
+                    style={commonStyles.choiceSide}
+                    onPress={() => {
+                      applyChoiceEffect(
+                        currentChoice?.option1,
+                        health,
+                        setHealth,
+                        pollutionLevel,
+                        setPollutionLevel,
+                        setCurrentChoice,
+                        setIsModalVisible,
+                        setShowEffectText,
+                        setEffectText,
+                        setIsBusy
+                      );
+                      setIsBusy(true); // Set isBusy to true to avoid new input during effect text display
+                    }}
+                  >
+                    <Image
+                      source={currentChoice?.option1.image}
+                      style={commonStyles.optionImage}
+                    />
+                    <Text style={commonStyles.optionDescription}>
+                      {currentChoice?.option1.description}
+                    </Text>
+                  </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.choiceSide}
-                onPress={() => {
-                  applyChoiceEffect(
-                    currentChoice?.option2,
-                    health,
-                    setHealth,
-                    pollutionLevel,
-                    setPollutionLevel,
-                    setCurrentChoice,
-                    setIsModalVisible
-                  );
-                  setIsBusy(false);
-                }}
-              >
-                <Image
-                  source={currentChoice?.option2.image}
-                  style={styles.optionImage}
-                />
-                <Text style={styles.optionDescription}>
-                  {currentChoice?.option2.description}
-                </Text>
-              </TouchableOpacity>
-            </View>
+                  <TouchableOpacity
+                    style={commonStyles.choiceSide}
+                    onPress={() => {
+                      applyChoiceEffect(
+                        currentChoice?.option2,
+                        health,
+                        setHealth,
+                        pollutionLevel,
+                        setPollutionLevel,
+                        setCurrentChoice,
+                        setIsModalVisible,
+                        setShowEffectText,
+                        setEffectText,
+                        setIsBusy
+                      );
+                      setIsBusy(true); // Set isBusy to true to avoid new input during effect text display
+                    }}
+                  >
+                    <Image
+                      source={currentChoice?.option2.image}
+                      style={commonStyles.optionImage}
+                    />
+                    <Text style={commonStyles.optionDescription}>
+                      {currentChoice?.option2.description}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
           </View>
         </Modal>
 
         <TouchableOpacity
-          style={styles.button}
+          style={commonStyles.button}
           onPress={() =>
             increasePollution(
               pollutionLevel,
@@ -203,167 +223,25 @@ const PlayScreen = ({ route }) => {
             )
           }
         >
-          <Text style={styles.buttonText}>Increase Pollution</Text>
+          <Text style={commonStyles.buttonText}>Increase Pollution</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.secondaryButton}
+          style={commonStyles.secondaryButton}
           onPress={() => resetGame(setHealth, setPollutionLevel)}
         >
-          <Text style={styles.secondaryButtonText}>Reset Game</Text>
+          <Text style={commonStyles.secondaryButtonText}>Reset Game</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.exitButton}
+          style={commonStyles.exitButton}
           onPress={() => navigation.navigate("Home")}
         >
-          <Text style={styles.exitButtonText}>Back to Main Menu</Text>
+          <Text style={commonStyles.exitButtonText}>Back to Main Menu</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  promptText: {
-    fontSize: 30,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 10,
-    color: "#fff",
-  },
-  yearModalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  yearModalContainer: {
-    backgroundColor: "#3399ff",
-    padding: 30,
-    borderRadius: 20,
-    width: "80%",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 10,
-  },
-  yearText: {
-    fontSize: 36,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 10,
-  },
-  yearMessage: {
-    fontSize: 18,
-    color: "#e6f7ff",
-    textAlign: "center",
-  },
-  background: {
-    flex: 1,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    borderRadius: 15,
-    padding: 30,
-  },
-  character: {
-    width: 200,
-    height: 200,
-    marginBottom: 30,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#ffffff",
-    marginBottom: 10,
-  },
-  stats: {
-    fontSize: 18,
-    color: "#ffffff",
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: "#ffffff",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  buttonText: {
-    color: "#003366",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  secondaryButton: {
-    backgroundColor: "#ffffff",
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  secondaryButtonText: {
-    color: "#003366",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  exitButton: {
-    backgroundColor: "#ffffff",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-  },
-  exitButtonText: {
-    color: "#003366",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 51, 102, 0.85)", // Deep translucent blue
-  },
-  choicesContainer: {
-    backgroundColor: "#dbefff", // Light pastel blue
-    borderRadius: 20,
-    padding: 20,
-    width: "90%",
-    height: "75%",
-    borderColor: "#3399ff",
-    borderWidth: 2,
-    flexDirection: "row", // Side-by-side layout
-    justifyContent: "space-between",
-  },
-  choiceSide: {
-    flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-    borderRadius: 15,
-    marginHorizontal: 10,
-    padding: 10,
-  },
-  optionImage: {
-    width: "100%",
-    height: "75%",
-    resizeMode: "contain",
-    marginBottom: 10,
-  },
-  optionDescription: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: "#003366",
-    textAlign: "center",
-    fontFamily: "Helvetica Neue",
-  },
-});
 
 export default PlayScreen;
