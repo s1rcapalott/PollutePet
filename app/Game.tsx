@@ -11,7 +11,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 
-const cities = ["United States", "China", "Japan", "Spain"]; // List of cities
+const cities = ["United States", "Germany", "China", "Brazil"]; // List of cities
 
 const GameScreen = ({ navigation }) => {
   const [selectedLocation, setSelectedLocation] = useState(""); // State for storing the selected location

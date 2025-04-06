@@ -8,6 +8,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import ProgressBar from "./progressbar"; // Importing the ProgressBar component
 
 // Dummy state for health and pollution levels
 const PlayScreen = ({ route }) => {
@@ -47,8 +48,11 @@ const PlayScreen = ({ route }) => {
         <Text style={styles.title}>{cityName}</Text>
 
         {/* Display health and pollution stats */}
-        <Text style={styles.stats}>Health: {health}%</Text>
-        <Text style={styles.stats}>Pollution Level: {pollutionLevel}%</Text>
+        <ProgressBar label="Health" value={health} icon="heart" color="#f44336" />
+        <ProgressBar label="Pollution" value={pollutionLevel} icon="cloud" color="#9E9E9E" />
+
+
+
 
         {/* Buttons for gameplay */}
         <TouchableOpacity
