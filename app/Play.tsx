@@ -11,8 +11,15 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { choiceArray } from "../choiceArray"; // Ensure this import is correct
+import {
+  increasePollution,
+  resetGame,
+  getBackgroundImage,
+  chooseRandomChoice,
+  applyChoiceEffect,
+  fadeIn,
+} from "../gameHelper"; // Import helper functions
 
-// Dummy state for health and pollution levels
 const PlayScreen = ({ route }) => {
   const navigation = useNavigation();
   const { cityName } = route.params;
@@ -21,101 +28,70 @@ const PlayScreen = ({ route }) => {
   const [pollutionLevel, setPollutionLevel] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(0));
   const [currentChoice, setCurrentChoice] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [year, setYear] = useState(2000); // Initial year
+  const [yearModalVisible, setYearModalVisible] = useState(false);
+  const [yearMessage, setYearMessage] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setYear((prevYear) => prevYear + 1); // Increment year
-    }, 6000); // 60 seconds
+      setYear((prevYear) => prevYear + 1);
+    }, 60000); // 60 seconds to simulate year increment
 
-    return () => clearInterval(interval); // Clean up on unmount
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
   useEffect(() => {
-    if (year !== 2025) {
-      chooseRandomChoice(); // Show a new choice when year increases
+    if (year !== 2000) {
+      chooseRandomChoice(choiceArray, setCurrentChoice, setIsModalVisible);
+
+      const msg =
+        pollutionLevel > 70
+          ? "The air is getting worse... people are coughing."
+          : health < 50
+          ? "Your community’s health is declining."
+          : "The city is doing okay... for now.";
+
+      setYearMessage(msg);
+      setYearModalVisible(true);
+
+      setTimeout(() => {
+        setYearModalVisible(false);
+      }, 3500);
     }
   }, [year]);
 
-  // Function to simulate the pollution affecting health
-  const increasePollution = () => {
-    if (pollutionLevel < 100) {
-      setPollutionLevel(pollutionLevel + 10);
-      setHealth(health - 5); // Reduces health by 5 as pollution increases
-    }
-  };
-
-  // Function to simulate the game reset
-  const resetGame = () => {
-    setHealth(100);
-    setPollutionLevel(0);
-  };
-
-  // Determine the background image based on pollution level
-  const getBackgroundImage = () => {
-    if (pollutionLevel > 75) {
-      return require("../assets/images/ruble.png"); // High pollution background
-    } else if (pollutionLevel > 50) {
-      return require("../assets/images/scaryCity.png"); // Medium pollution background
-    } else if (pollutionLevel > 25) {
-      return require("../assets/images/cityBasic.png"); // Low pollution background
-    } else {
-      return require("../assets/images/niceCity.png"); // Clean city background
-    }
-  };
-
-  const fadeIn = () => {
-    fadeAnim.setValue(0);
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
-
   useEffect(() => {
-    fadeIn(); // Trigger the fade effect whenever pollution level changes
+    fadeIn(fadeAnim); // Trigger the fade effect when pollution level changes
   }, [pollutionLevel]);
-
-  const chooseRandomChoice = () => {
-    const randomIndex = Math.floor(Math.random() * choiceArray.length);
-    const selectedChoice = choiceArray[randomIndex];
-    setCurrentChoice(selectedChoice);
-    setIsModalVisible(true); // Show the modal when a choice is made
-  };
-
-  const applyChoiceEffect = (option) => {
-    setHealth(health + option.healthEffect);
-    setPollutionLevel(pollutionLevel + option.pollutionEffect);
-    setCurrentChoice(null); // Clear choices after one is selected
-    setIsModalVisible(false); // Close the modal after selection
-  };
-
-  useEffect(() => {
-    chooseRandomChoice(); // Choose a random choice at the start
-  }, []);
 
   return (
     <ImageBackground
-      source={getBackgroundImage()} // Set the background image dynamically
+      source={getBackgroundImage(pollutionLevel)} // Set the background image dynamically
       style={styles.background}
       resizeMode="cover"
     >
       <View style={styles.container}>
         <Image
-          source={require("../assets/images/happyPet.png")} // Your character image
+          source={require("../assets/images/happyPet.png")}
           style={styles.character}
           resizeMode="contain"
         />
         <Text style={styles.title}>{cityName}</Text>
 
-        {/* Display health and pollution stats */}
         <Text style={styles.stats}>Health: {health}%</Text>
         <Text style={styles.stats}>Pollution Level: {pollutionLevel}%</Text>
         <Text style={styles.stats}>Year: {year}</Text>
 
-        {/* Modal for choices */}
+        <Modal visible={yearModalVisible} transparent animationType="fade">
+          <View style={styles.yearModalOverlay}>
+            <View style={styles.yearModalContainer}>
+              <Text style={styles.yearText}>Year: {year}</Text>
+              <Text style={styles.yearMessage}>{yearMessage}</Text>
+            </View>
+          </View>
+        </Modal>
+
         <Modal
           visible={isModalVisible}
           animationType="slide"
@@ -124,10 +100,19 @@ const PlayScreen = ({ route }) => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.choicesContainer}>
-              {/* Left Choice */}
               <TouchableOpacity
                 style={styles.choiceSide}
-                onPress={() => applyChoiceEffect(currentChoice?.option1)}
+                onPress={() =>
+                  applyChoiceEffect(
+                    currentChoice?.option1,
+                    health,
+                    setHealth,
+                    pollutionLevel,
+                    setPollutionLevel,
+                    setCurrentChoice,
+                    setIsModalVisible
+                  )
+                }
               >
                 <Image
                   source={currentChoice?.option1.image}
@@ -138,10 +123,19 @@ const PlayScreen = ({ route }) => {
                 </Text>
               </TouchableOpacity>
 
-              {/* Right Choice */}
               <TouchableOpacity
                 style={styles.choiceSide}
-                onPress={() => applyChoiceEffect(currentChoice?.option2)}
+                onPress={() =>
+                  applyChoiceEffect(
+                    currentChoice?.option2,
+                    health,
+                    setHealth,
+                    pollutionLevel,
+                    setPollutionLevel,
+                    setCurrentChoice,
+                    setIsModalVisible
+                  )
+                }
               >
                 <Image
                   source={currentChoice?.option2.image}
@@ -155,24 +149,30 @@ const PlayScreen = ({ route }) => {
           </View>
         </Modal>
 
-        {/* Buttons for gameplay */}
         <TouchableOpacity
           style={styles.button}
-          onPress={increasePollution} // Increases pollution and decreases health
+          onPress={() =>
+            increasePollution(
+              pollutionLevel,
+              setPollutionLevel,
+              health,
+              setHealth
+            )
+          }
         >
           <Text style={styles.buttonText}>Increase Pollution</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.secondaryButton}
-          onPress={resetGame} // Resets the game stats
+          onPress={() => resetGame(setHealth, setPollutionLevel)}
         >
           <Text style={styles.secondaryButtonText}>Reset Game</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.exitButton}
-          onPress={() => navigation.navigate("Home")} // Goes back to home screen
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.exitButtonText}>Back to Main Menu</Text>
         </TouchableOpacity>
@@ -182,6 +182,35 @@ const PlayScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  yearModalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  yearModalContainer: {
+    backgroundColor: "#3399ff",
+    padding: 30,
+    borderRadius: 20,
+    width: "80%",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  yearText: {
+    fontSize: 36,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 10,
+  },
+  yearMessage: {
+    fontSize: 18,
+    color: "#e6f7ff",
+    textAlign: "center",
+  },
   background: {
     flex: 1,
     height: "100%",
