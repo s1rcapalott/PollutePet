@@ -9,7 +9,8 @@ export const linkedChoices = [
       healthEffect: -3,
       pollutionEffect: 5,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Cars emit greenhouse gases like carbon dioxide and nitrogen oxides, which contribute to both climate change and respiratory issues. Daily car commutes are one of the largest sources of urban air pollution."
     },
     option2: {
       description: "Bike to school",
@@ -17,7 +18,8 @@ export const linkedChoices = [
       healthEffect: 5,
       pollutionEffect: 0,
       happinessEffect: 2,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Biking produces zero emissions and improves cardiovascular health. If just 1 out of every 10 people biked instead of drove, global carbon emissions could drop by millions of tons annually."
     },
   },
   {
@@ -29,7 +31,8 @@ export const linkedChoices = [
       healthEffect: 5,
       pollutionEffect: -5,
       happinessEffect: 3,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Spending timee in green spaces reduces stress and improves air quality. Trees and plants in parks act as natural air filters by absorbing carbon dioxide and other pollutants."
     },
     option2: {
       description: "Go on a motorcycle in the dunes",
@@ -37,7 +40,8 @@ export const linkedChoices = [
       healthEffect: -2,
       pollutionEffect: 5,
       happinessEffect: 6,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Off-raod vehicles like motorcycles release harmful exhaust gases and stir up dust that contributres to local air pollution. Their high emissions and fuel use also increase your carbon footprint."
     },
   },
   {
@@ -49,7 +53,8 @@ export const linkedChoices = [
       healthEffect: 3,
       pollutionEffect: 6,
       happinessEffect: 3,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Air conditioners use hydroflourocarbons (HFCs), which are up to 3,000 times more potent than carbon dioxide in warming the planet. Even small leaks can significantly worsen climate change."
     },
     option2: {
       description: "Open the windows",
@@ -57,7 +62,8 @@ export const linkedChoices = [
       healthEffect: 0,
       pollutionEffect: -3,
       happinessEffect: -2,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Natural ventilitaion reduces both indoor air pollutants and energy consumption. In cities, reducing AC usage during peak heat can also preven 'brownouts' from overloaded power grids."
     }
   },
   {
@@ -67,9 +73,10 @@ export const linkedChoices = [
       description: "Burn down a nuclear power plant",
       image: require("@/assets/images/nuclearpowerplant.jpg"),
       healthEffect: -6,
-      pollutionEffect: 10,
+      pollutionEffect: 5,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Altough burning down a nuclear power plant might sound wild, nuclear energy actually produces zero air pollution during operation, It's one of the cleanes sources of large scale energy."
     },
     option2: {
       description: "Create a cure for cancer",
@@ -77,7 +84,8 @@ export const linkedChoices = [
       healthEffect: 6,
       pollutionEffect: -3,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Many cancer-causing pollutants like benzene and formaldehyde come from buring fossil fuels. So clean air = healthier pets and people."
     }
 
   },
@@ -87,10 +95,11 @@ export const linkedChoices = [
     option1: {
       description: "Plant trees in the local park",
       image: require("@/assets/images/planttrees.jpg"),
-      healtEffect: 5,
+      healthEffect: 5,
       pollutionEffect: -7,
       happinessEffect: 4,
       temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "A single mature tree can absorb about 48 pounds of carbon dioxide a year. Meaning parks are nature's silent climate warriors."
     },
     option2: {
       description: "Volunteer at an animal shelter",
@@ -98,7 +107,8 @@ export const linkedChoices = [
       healthEffect: 4,
       pollutionEffect: -2,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Animal shelters use lots of energy for lighting and AC. Volunteering can help raise awareness about how shelters can go green too."
     }
   },
   {
@@ -110,7 +120,8 @@ export const linkedChoices = [
       healthEffect: -2,
       pollutionEffect: 3,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Factories using cheap labor often skimp on environmental regulations too. Pollution from these factories can contanimate air, water, and even toy materials."
     },
     option2: {
       description: "Replace the toy with a local one, making your pet sad",
@@ -118,7 +129,8 @@ export const linkedChoices = [
       healthEffect: 3,
       pollutionEffect: -2,
       happinessEffect: 2,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Local toy makers often use less packaging, cleaner materials, and fewer transportation miles."
     }
   },
   {
@@ -130,15 +142,17 @@ export const linkedChoices = [
       healthEffect: 4,
       pollutionEffect: -4,
       happinessEffect: 3,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Urban green spaces reduce heat, absorb carbon dioxide, and improve air quality. Cities without them become 'heat-islands' - way hotter and smoggier."
     },
     option2: {
       description: "Invest early and earn big returns, make it easy to provide for your pet.",
-      image: require("@/assets.images.luxurycondos.png"),
+      image: require("@/assets/images/luxurycondos.png"),
       healthEffect: -2,
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Luxury condos often mean more air conditioning, more cats, and more emissiosn. Gentrification is not just social - it can be environmental too."
     },
   },
   {
@@ -150,7 +164,8 @@ export const linkedChoices = [
       healthEffect: -5,
       pollutionEffect: 6,
       happinessEffect: 7,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Forests are the lungs of the planet. one tree stores up to 46 pounds Clear-cutting them for homes turns carbon sinks into carbon sources."
     },
     option2: {
       description: "Build a tiny eco-home instead",
@@ -158,7 +173,8 @@ export const linkedChoices = [
       healthEffect: 3,
       pollutionEffect: -2,
       happinessEffect: 3,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Tiny homes have a tiny carbon footprint! less space means heating, cooling, and lighting - making them surprisingly powerful against climate change."
     }
   },
 
@@ -171,7 +187,8 @@ export const linkedChoices = [
       healthEffect: -3,
       pollutionEffect: 9,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Coal is still the single biggest source of human-made carbon dioxide. Burning coal realeases more radiation into the air than a nuclear plant ever will."
     },
     option2: {
       description: "Invest in solar panels instead",
@@ -179,7 +196,8 @@ export const linkedChoices = [
       healtEffect: 4,
       pollutionEffect: -4,
       happinessEffect: 3,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Solar panels pay back their environmental cost in just 1-4 years - then provide clean energy for 25+ years. That's long-term pet care energy!"
     }
   },
   {
@@ -191,7 +209,8 @@ export const linkedChoices = [
       healthEffect: -1,
       pollutionEffect: 5,
       happinessEffect: 3,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Returning online orders generates 15 million metric tons of carbon dioxide a year - thats equivalent to driving 3 million cars nonstop."
     },
     option2: {
       description: "Walk to the local market with reusable bags",
@@ -199,7 +218,8 @@ export const linkedChoices = [
       healtEffect: 2,
       pollutionEffect: -2,
       happinessEffect: 2,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Walking not only emits zero carbon dioxide, but reusable bags can eliminate over 5000 sinlge-use plastic bags across their lifetime."
     }
   },
   {
@@ -211,7 +231,8 @@ export const linkedChoices = [
       healthEffect: -2,
       pollutionEffect: 4,
       happinessEffect: 4,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Your smartphone probably traveled farther to reach you than you'll travel in a year. Manufacturing one emits 85 kg of carbon dioxide. "
     },
     option2: {
       description: "Buy a refurbished phone and recycle your old one",
@@ -219,7 +240,8 @@ export const linkedChoices = [
       healthEffect: -2,
       pollutionEffect: -3,
       happinessEffect: -2,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Refurbishing electronics uses up to 80% less energy than manufacturing new ones - and keeps toxic e-waste out of landfills."
     }
   },
   {
@@ -231,7 +253,8 @@ export const linkedChoices = [
       healtEffect: 2,
       pollutionEffect: 6,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "A single cow can burp out up to 100 kg of methane a year - thats equivalent to driving a car 1,200 miles."
     },
     option2: {
       desctription: "Plan a mostly plant-based, low-waste menu",
@@ -239,7 +262,8 @@ export const linkedChoices = [
       healthEffect: 5,
       pollutionEffect: -4,
       happinessEffect: 4,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Switching to a plant-based diet can cut your food-related carbon footprint by up to 73% - and it's deliciously effective."
     }
   },
   {
@@ -251,7 +275,8 @@ export const linkedChoices = [
       healthEffect: 6,
       pollutionEffect: 6,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Tires actually cause more pollution than tailpipes - modern tires shed tiny particles as you drive, which end up in the air and oceans."
     },
     option2: {
       description: "Take public transportation",
@@ -259,7 +284,8 @@ export const linkedChoices = [
       healthEffect: 2,
       pollutionEffect: -3,
       happinessEffect: 1,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Public transportation emits up to 45% less carbon dioxide per passenger mile than private vehicles."
     }
   },
   {
@@ -271,7 +297,8 @@ export const linkedChoices = [
       healthEffect: -2,
       pollutionEffect: 5,
       happinessEffect: 1,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "The average American throws away 37 kg of clothing per year- and most of it ends up releasing methane in landfills."
     },
     option2: {
       description: "Donate or repurpose them into rags or crafts",
@@ -279,7 +306,8 @@ export const linkedChoices = [
       healthEffect: 2,
       pollutionEffect: -3,
       happinessEffect: 3,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary:"Repurposing just 1 ton of textiles saves 20 tons of carbon dioxide emission."
     }
   },
   {
@@ -291,7 +319,8 @@ export const linkedChoices = [
       healthEffect: -2,
       pollutionEffect: 7,
       happinessEffect: 5,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "One round-trip flight emits more carbon dioxide than planting 200 trees can absorb in a year. Your seat comes with a carbon trail."
     },
     option2: {
       description: "Road trip to a nearby nature spot",
@@ -299,7 +328,8 @@ export const linkedChoices = [
       healthEffect: 3,
       pollutionEffect: -1,
       happinessEffect: 4,
-      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+      commentary: "Local nature trips not only reduce emissions - they boost your mental health and help support conservation-focused areas."
     }
   },
 
