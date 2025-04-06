@@ -1,5 +1,6 @@
 // gameHelpers.js
 import { Animated } from "react-native";
+import { linkedChoices } from "./choiceArray";
 
 // Function to simulate the pollution affecting health
 export const increasePollution = (pollutionLevel, setPollutionLevel, health, setHealth) => {
@@ -12,6 +13,7 @@ export const increasePollution = (pollutionLevel, setPollutionLevel, health, set
   // Function to reset the game stats
   export const resetGame = (setHealth, setPollutionLevel) => {
     setHealth(100);
+    setSeenChoices(new Set());
     setPollutionLevel(0);
   };
   
@@ -29,12 +31,14 @@ export const increasePollution = (pollutionLevel, setPollutionLevel, health, set
   };
   
   // Function to choose a random option for the modal
-  export const chooseRandomChoice = (choiceArray, setCurrentChoice, setIsModalVisible) => {
-    const randomIndex = Math.floor(Math.random() * choiceArray.length);
-    const selectedChoice = choiceArray[randomIndex];
-    setCurrentChoice(selectedChoice);
-    setIsModalVisible(true); // Show the modal when a choice is made
-  };
+  export function getUnseenRandomChoice(seenChoices) {
+    const unseen = linkedChoices.filter(choice => !seenChoices.has(choice.prompt));
+    if (unseen.length === 0) return null;
+    return unseen[Math.floor(Math.random() * unseen.length)];
+  }
+  
+  
+  
   
   // Function to apply choice effects on health and pollution
   export const applyChoiceEffect = (option, health, setHealth, pollutionLevel, setPollutionLevel, setCurrentChoice, setIsModalVisible) => {

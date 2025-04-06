@@ -10,44 +10,61 @@ import {
   Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ProgressBar from "./progressbar"; // Importing the ProgressBar component
-
-// Dummy state for health and pollution levels
-import { choiceArray } from "../choiceArray"; // Ensure this import is correct
+import { linkedChoices } from "../choiceArray";
 import {
   increasePollution,
   resetGame,
   getBackgroundImage,
-  chooseRandomChoice,
-  applyChoiceEffect,
   fadeIn,
-} from "../gameHelper"; // Import helper functions
+  applyChoiceEffect,
+  getUnseenRandomChoice,
+} from "../gameHelper";
 
 const PlayScreen = ({ route }) => {
+  interface Choice {
+    prompt: string;
+    option1: {
+      description: string;
+      image: any;
+      healthEffect: number;
+      pollutionEffect: number;
+      happinessEffect: number;
+      temperatureEffect: number;
+    };
+    option2: {
+      description: string;
+      image: any;
+      healthEffect: number;
+      pollutionEffect: number;
+      happinessEffect: number;
+      temperatureEffect: number;
+    };
+    seen: boolean;
+  }
+
   const navigation = useNavigation();
   const { cityName } = route.params;
 
   const [health, setHealth] = useState(100);
   const [pollutionLevel, setPollutionLevel] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(0));
-  const [currentChoice, setCurrentChoice] = useState(null);
+  const [currentChoice, setCurrentChoice] = useState<Choice | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [year, setYear] = useState(2000); // Initial year
+  const [year, setYear] = useState(2000);
   const [yearModalVisible, setYearModalVisible] = useState(false);
   const [yearMessage, setYearMessage] = useState("");
+  const [seenChoices, setSeenChoices] = useState(new Set());
 
   useEffect(() => {
     const interval = setInterval(() => {
       setYear((prevYear) => prevYear + 1);
-    }, 60000); // 60 seconds to simulate year increment
-
-    return () => clearInterval(interval); // Cleanup on unmount
+    }, 6000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
+    // Only run when year changes
     if (year !== 2000) {
-      chooseRandomChoice(choiceArray, setCurrentChoice, setIsModalVisible);
-
       const msg =
         pollutionLevel > 70
           ? "The air is getting worse... people are coughing."
@@ -58,19 +75,34 @@ const PlayScreen = ({ route }) => {
       setYearMessage(msg);
       setYearModalVisible(true);
 
-      setTimeout(() => {
+      // Set the timer to show the modal for a few seconds before continuing
+      const timer = setTimeout(() => {
         setYearModalVisible(false);
+
+        const newChoice = getUnseenRandomChoice(seenChoices);
+        if (newChoice) {
+          setCurrentChoice(newChoice);
+          setSeenChoices((prev) => new Set(prev).add(newChoice.prompt)); // track it as seen
+          setIsModalVisible(true);
+        } else {
+          console.warn(
+            "All questions have been shown or getUnseenRandomChoice returned undefined"
+          );
+        }
       }, 3500);
+
+      // Cleanup function to clear the timeout when the component unmounts or when `year` changes
+      return () => clearTimeout(timer);
     }
-  }, [year]);
+  }, [year, seenChoices, health, pollutionLevel]);
 
   useEffect(() => {
-    fadeIn(fadeAnim); // Trigger the fade effect when pollution level changes
+    fadeIn(fadeAnim);
   }, [pollutionLevel]);
 
   return (
     <ImageBackground
-      source={getBackgroundImage(pollutionLevel)} // Set the background image dynamically
+      source={getBackgroundImage(pollutionLevel)}
       style={styles.background}
       resizeMode="cover"
     >
@@ -81,37 +113,10 @@ const PlayScreen = ({ route }) => {
           resizeMode="contain"
         />
         <Text style={styles.title}>{cityName}</Text>
-        {/* Display health and pollution stats */}
-        <ProgressBar
-          label="Health"
-          value={health}
-          icon="heart"
-          color="#f44336"
-        />
-        <ProgressBar
-          label="Pollution"
-          value={pollutionLevel}
-          icon="cloud"
-          color="#9E9E9E"
-        />
-        <ProgressBar
-          label="Happiness"
-          value={100 - pollutionLevel}
-          icon="smile-o"
-          color="#FFEB3B"
-        />
-        <ProgressBar
-          label="Temperature"
-          value={Math.random() * 100}
-          icon="thermometer-half"
-          color="#FF9800"
-        />
-        // Display the stats using a progress bar. // Later, replace this with
-        actual data — likely async state variables.
-        {/* Buttons for gameplay */}
         <Text style={styles.stats}>Health: {health}%</Text>
         <Text style={styles.stats}>Pollution Level: {pollutionLevel}%</Text>
         <Text style={styles.stats}>Year: {year}</Text>
+
         <Modal visible={yearModalVisible} transparent animationType="fade">
           <View style={styles.yearModalOverlay}>
             <View style={styles.yearModalContainer}>
@@ -120,6 +125,7 @@ const PlayScreen = ({ route }) => {
             </View>
           </View>
         </Modal>
+
         <Modal
           visible={isModalVisible}
           animationType="slide"
@@ -127,7 +133,10 @@ const PlayScreen = ({ route }) => {
           onRequestClose={() => setIsModalVisible(false)}
         >
           <View style={styles.modalOverlay}>
+            <Text style={styles.promptText}>{currentChoice?.prompt}</Text>
             <View style={styles.choicesContainer}>
+              {/* 🔥 Add the prompt text here */}
+
               <TouchableOpacity
                 style={styles.choiceSide}
                 onPress={() =>
@@ -176,6 +185,7 @@ const PlayScreen = ({ route }) => {
             </View>
           </View>
         </Modal>
+
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
@@ -189,12 +199,14 @@ const PlayScreen = ({ route }) => {
         >
           <Text style={styles.buttonText}>Increase Pollution</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.secondaryButton}
           onPress={() => resetGame(setHealth, setPollutionLevel)}
         >
           <Text style={styles.secondaryButtonText}>Reset Game</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.exitButton}
           onPress={() => navigation.navigate("Home")}
@@ -207,6 +219,13 @@ const PlayScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  promptText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
+    color: "#fff",
+  },
   yearModalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.6)",
