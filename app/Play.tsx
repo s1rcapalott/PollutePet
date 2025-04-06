@@ -8,7 +8,8 @@ import {
   ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ProgressBar from "./progressbar"; // Importing the ProgressBar component
+import ProgressBar from "./progressbar"; 
+import { determineEnding } from '../ending'; // Import the determineEnding function
 
 // Dummy state for health and pollution levels
 const PlayScreen = ({ route }) => {

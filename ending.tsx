@@ -1,25 +1,30 @@
 
+type EndType = "good" | "bad" | "neutral" | "death" | "climate_hero";
 
-const checkEndCondition = () => {
-    // Example thresholds, tweak them as needed
-    if (health <= 0) {
-      console.log("Your Tamagotchi has died 💀");
-      navigation.navigate("GameOver", { ending: "death" });
-      return;
-    }
-  
-    if (airPollution > 80 && temperature > 2.5 && happiness < 20 && health < 30) {
-      console.log("You got the bad ending 😞");
-      navigation.navigate("GameOver", { ending: "bad" });
-      return;
-    }
-  
-    if (health > 90 && happiness > 80 && airPollution < 20 && temperature < 1.5) {
-      console.log("You got the good ending 🎉");
-      navigation.navigate("GameOver", { ending: "good" });
-      return;
-    }
-  
-    // Otherwise, keep playing
-  };
-  
+interface EndCheckParams {
+  health: number;
+  happiness: number;
+  airPollution: number;
+  temperature: number;
+}
+
+export const determineEnding = ({
+  health,
+  happiness,
+  airPollution,
+  temperature,
+}: EndCheckParams): EndType | null => {
+  if (health <= 0) return "death";
+
+  if (airPollution > 90 && temperature > 3 && happiness < 20 && health < 40) {
+    return "bad";
+  }
+
+  if (airPollution < 20 && temperature < 1.5 && health > 90 && happiness > 80) {
+    return "climate_hero";
+  }
+
+  if (health > 60 && happiness > 50) return "good";
+
+  return "neutral";
+};
