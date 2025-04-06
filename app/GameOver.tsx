@@ -11,11 +11,11 @@ const endingMessages = {
 };
 
 const endingImages ={
-  death: require("../images/death.png"),
-  bad: require("../images/bad.png"),
-  neutral: require("../images/neutral.png"),
-  good: require("../images/good.png"),
-  climate_hero: require("../images/climate_hero.png"),
+  death: require("@/assets/images/death1.png"),
+  bad: require("@/assets/images/bad.png"),
+  neutral: require("@/assets/images/neutral.png"),
+  good: require("@/assets/images/good.png"),
+  climate_hero: require("@/assets/images/hero.png"),
 }
 const GameOverScreen = ({ route, navigation }) => {
   const { ending } = route.params;
