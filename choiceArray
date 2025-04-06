@@ -5,7 +5,7 @@ export const linkedChoices = [
 
     option1: {
       description: "Drive to school",
-      image: require("../assets/images/driving.jpg"),
+      image: require("@/assets/images/driving.jpg"),
       healthEffect: -3,
       pollutionEffect: 5,
       happinessEffect: 5,
@@ -13,7 +13,7 @@ export const linkedChoices = [
     },
     option2: {
       description: "Bike to school",
-      image: require("../assets/images/bike.jpg"),
+      image: require("@/assets/images/bike.jpg"),
       healthEffect: 5,
       pollutionEffect: 0,
       happinessEffect: 2,
@@ -25,7 +25,7 @@ export const linkedChoices = [
 
     option1: {
       description: "Have a nice walk in the park",
-      image: require("../assets/images/park.jpg"),
+      image: require("@/assets/images/park.jpg"),
       healthEffect: 5,
       pollutionEffect: -5,
       happinessEffect: 3,
@@ -33,7 +33,7 @@ export const linkedChoices = [
     },
     option2: {
       description: "Go on a motorcycle in the dunes",
-      image: require("../assets/images/motorcycle.jpg"),
+      image: require("@/assets/images/motorcycle.jpg"),
       healthEffect: -2,
       pollutionEffect: 5,
       happinessEffect: 6,
@@ -45,7 +45,7 @@ export const linkedChoices = [
 
     option1: {
       description: "Use the AC all day",
-      image: require("../assets/images/ac.jpg"),
+      image: require("@/assets/images/ac.jpg"),
       healthEffect: 3,
       pollutionEffect: 6,
       happinessEffect: 3,
@@ -53,7 +53,7 @@ export const linkedChoices = [
     },
     option2: {
       description: "Open the windows",
-      image: require("../assets/images/window.jpg"),
+      image: require("@/assets/images/window.jpg"),
       healthEffect: 0,
       pollutionEffect: -3,
       happinessEffect: -2,
@@ -65,7 +65,7 @@ export const linkedChoices = [
 
     option1: {
       description: "Burn down a nuclear power plant",
-      image: require("../assets/images/nuclearpowerplant.jpg"),
+      image: require("@/assets/images/nuclearpowerplant.jpg"),
       healthEffect: -6,
       pollutionEffect: 10,
       happinessEffect: 5,
@@ -73,7 +73,7 @@ export const linkedChoices = [
     },
     option2: {
       description: "Create a cure for cancer",
-      image: require("../assets/images/doctor.webp"),
+      image: require("@/assets/images/doctor.webp"),
       healthEffect: 6,
       pollutionEffect: -3,
       happinessEffect: 5,
@@ -81,5 +81,86 @@ export const linkedChoices = [
     }
 
   },
+  {
+    prompt: "Your pet wants to give back to the community what will you do together?",
+
+    option1: {
+      description: "Plant trees in the local park",
+      image: require("@/assets/images/planttrees.jpg"),
+      healtEffect: 5,
+      pollutionEffect: -7,
+      happinessEffect: 4,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+    },
+    option2: {
+      description: "Volunteer at an animal shelter",
+      image: require("@/assets/images/animalshelter.jpg"),
+      healthEffect: 4,
+      pollutionEffect: -2,
+      happinessEffect: 5,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+  {
+    prompt: "You discover your pet's favorite toy is made by a factory that uses child labor. What will you do?",
+
+    option1: {
+      description: "Keep buying the toy because it makes your pet happy.",
+      image: require("@/assets/images/pettoy.jpg"),
+      healthEffect: -2,
+      pollutionEffect: 3,
+      happinessEffect: 5,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Replace the toy with a local one, making your pet sad",
+      image: require("@/assets/images/replacetoy.png"),
+      healthEffect: 3,
+      pollutionEffect: -2,
+      happinessEffect: 2,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+  {
+    prompt: "Your city is replacing green parks with luxury condos. You can protest or proft. What will you do?",
+
+    option1: {
+      description: "Join the protest to save the park",
+      image: require("@/assets/images/parkprotest.png"),
+      healthEffect: 4,
+      pollutionEffect: -4,
+      happinessEffect: 3,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Invest early and earn big returns, make it easy to provide for your pet.",
+      image: require("@/assets.images.luxurycondos.png"),
+      healthEffect: -2,
+      pollutionEffect: 5,
+      happinessEffect: 5,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005),
+    },
+  },
+  {
+    prompt: "You can build your pet a dream house, but it requires cutting down a forest. What will you do?",
+
+    option1: {
+      description: "Go ahead and build the house",
+      image: require("@/assets/images/treecutting.jpg"),
+      healthEffect: -5,
+      pollutionEffect: 6,
+      happinessEffect: 7,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    },
+    option2: {
+      description: "Build a tiny eco-home instead",
+      image: require("@/assets/images/tinyhome.png"),
+      healthEffect: 3,
+      pollutionEffect: -2,
+      happinessEffect: 3,
+      temperatureEffect: (pollutionEffect * 0.02) - (healthEffect * 0.005)
+    }
+  },
+
   // Add more linked choices as needed
 ];
