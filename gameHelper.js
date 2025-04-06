@@ -3,12 +3,11 @@ import { Animated } from "react-native";
 import { linkedChoices } from "./choiceArray";
 
 // Function to simulate the pollution affecting health
-export const increasePollution = (pollutionLevel, setPollutionLevel, health, setHealth) => {
-    if (pollutionLevel < 100) {
-      setPollutionLevel(pollutionLevel + 10);
-      setHealth(health - 5); // Reduces health by 5 as pollution increases
-    }
-  };
+export const increasePollution = (pollution, setPollution, health, setHealth) => {
+  const newPollution = Math.min(pollution + 10, 100); // ✅ cap at 100
+  setPollution(newPollution);
+  setHealth(prev => Math.max(0, prev - 5)); // ✅ clamp health ≥ 0
+};
   
   // Function to reset the game stats
   export const resetGame = (setHealth, setPollutionLevel) => {

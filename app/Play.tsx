@@ -103,7 +103,7 @@ const PlayScreen = ({ route }) => {
         pollutionLevel > 70
           ? "The air is getting worse... people are coughing."
           : health < 50
-          ? "Your community’s health is declining."
+          ? "Your community's health is declining."
           : "The city is doing okay... for now.";
   
       setYearMessage(msg);
