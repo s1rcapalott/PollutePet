@@ -49,8 +49,10 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   background: {
     flex: 1, // Ensures the background covers the whole screen
+    height: "100%",
     justifyContent: "center", // Centers content vertically
     alignItems: "center", // Centers content horizontally
+    paddingTop: 0,
   },
   container: {
     justifyContent: "center",
