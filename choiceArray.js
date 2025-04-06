@@ -1,4 +1,3 @@
-// choices.js
 export const linkedChoices = [
   {
     prompt: "It's time to go to school, how will you send your pet to school?",
@@ -22,6 +21,7 @@ export const linkedChoices = [
       effectText: "Biking produces zero emissions and improves cardiovascular health. If just 1 out of every 10 people biked instead of drove, global carbon emissions could drop by millions of tons annually."
     },
     seen: false,
+    
   },
   {
     prompt: "Your pet wants to do an activity today! What will you choose to do with your pet?",
@@ -45,6 +45,7 @@ export const linkedChoices = [
       effectText: "Off-raod vehicles like motorcycles release harmful exhaust gases and stir up dust that contributres to local air pollution. Their high emissions and fuel use also increase your carbon footprint."
     },
     seen: false,
+    
   },
   {
     prompt: "It's a hot summer day, your pet is complaining about the heat. What will you do?",
@@ -351,4 +352,3 @@ export const linkedChoices = [
 
   // Add more linked choices as needed
 ];
-
