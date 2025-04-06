@@ -32,15 +32,28 @@ const PlayScreen = ({ route }) => {
     setPollutionLevel(0);
   };
 
+  // Determine the background image based on pollution level
+  const getBackgroundImage = () => {
+    if (pollutionLevel > 75) {
+      return require("../assets/images/rubleCity.png"); // High pollution background
+    } else if (pollutionLevel > 50) {
+      return require("../assets/images/scaryCity.png"); // Medium pollution background
+    } else if (pollutionLevel > 25) {
+      return require("../assets/images/cityBasic.png"); // Low pollution background
+    } else {
+      return require("../assets/images/niceCity.png"); // Clean city background
+    }
+  };
+
   return (
     <ImageBackground
-      source={require("../assets/images/cityBackground.png")} // Background image
+      source={getBackgroundImage()} // Set the background image dynamically
       style={styles.background}
       resizeMode="cover"
     >
       <View style={styles.container}>
         <Image
-          source={require("../assets/images/Pet.png")} // Your character image
+          source={require("../assets/images/happyPet.png")} // Your character image
           style={styles.character}
           resizeMode="contain"
         />
@@ -79,6 +92,7 @@ const PlayScreen = ({ route }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
   },

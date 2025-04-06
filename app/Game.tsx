@@ -49,7 +49,7 @@ const GameScreen = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require("../assets/images/cityBackground.png")}
+      source={require("../assets/images/niceCity.png")}
       style={styles.background}
       resizeMode="cover"
     >
@@ -92,6 +92,7 @@ const GameScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
