@@ -21,6 +21,8 @@ import {
 } from "../gameHelper";
 import ProgressBar from "./progressbar"; 
 import { determineEnding } from '../ending' 
+import tempData from '../temp.json';      // 🌡 Global temps from 1990–2020
+import airData from '../airData.json';
 
 const PlayScreen = ({ route }) => {
   interface Choice {
@@ -115,8 +117,10 @@ const PlayScreen = ({ route }) => {
           resizeMode="contain"
         />
         <Text style={styles.title}>{cityName}</Text>
-        <Text style={styles.stats}>Health: {health}%</Text>
-        <Text style={styles.stats}>Pollution Level: {pollutionLevel}%</Text>
+        <ProgressBar label="Health" value={health} icon="heart" color="#f44336" />
+        <ProgressBar label="Air Quality" value={pollutionLevel} icon="cloud" color="#9E9E9E" />
+        <ProgressBar label="Happiness" value={100 - pollutionLevel} icon="smile-o" color="#FFEB3B" />
+        <ProgressBar label="Global Temp" value={temperature} max={2.0} icon="thermometer-half" color="#FF5722" />
         <Text style={styles.stats}>Year: {year}</Text>
 
         <Modal visible={yearModalVisible} transparent animationType="fade">
