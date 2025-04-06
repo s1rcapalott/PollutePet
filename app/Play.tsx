@@ -50,6 +50,10 @@ const PlayScreen = ({ route }) => {
         {/* Display health and pollution stats */}
         <ProgressBar label="Health" value={health} icon="heart" color="#f44336" />
         <ProgressBar label="Pollution" value={pollutionLevel} icon="cloud" color="#9E9E9E" />
+        <ProgressBar label = "Happiness" value={100 - pollutionLevel} icon="smile-o" color="#FFEB3B" />
+        <ProgressBar label = "Temperature" value={Math.random() * 100} icon="thermometer-half" color="#FF9800" />
+        // Display the stats using a progress bar.
+        // Later, replace this with actual data — likely async state variables.
 
 
 
