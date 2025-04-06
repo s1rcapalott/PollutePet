@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity,Image } from "react-native";
 
 const endingMessages = {
   death: "Your Tamagotchi didn't make it 💀",
@@ -10,13 +10,22 @@ const endingMessages = {
   climate_hero: "Amazing! You helped your Tamagotchi thrive in a clean world 🌎✨",
 };
 
+const endingImages ={
+  death: require("../images/death.png"),
+  bad: require("../images/bad.png"),
+  neutral: require("../images/neutral.png"),
+  good: require("../images/good.png"),
+  climate_hero: require("../images/climate_hero.png"),
+}
 const GameOverScreen = ({ route, navigation }) => {
   const { ending } = route.params;
   const message = endingMessages[ending] || "Game Over";
+  const image = endingImages[ending];
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Game Over</Text>
+      {image && <Image source={image} style={styles.image} />}
       <Text style={styles.message}>{message}</Text>
 
       <TouchableOpacity
@@ -29,6 +38,7 @@ const GameOverScreen = ({ route, navigation }) => {
   );
 };
 
+// 2. Add image style
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -41,6 +51,12 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: "#fff",
     marginBottom: 20,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+    marginBottom: 30,
   },
   message: {
     fontSize: 18,
