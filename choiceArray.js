@@ -223,7 +223,7 @@ export const linkedChoices = [
     },
     option2: {
       description: "Walk to the local market with reusable bags",
-      image: require("@assets/images.farmerswalk.png"),
+      image: require("@/assets/images/grocerydelivery.jpg"),
       healthEffect: 2,
       pollutionEffect: -2,
       happinessEffect: 2,
@@ -260,7 +260,7 @@ export const linkedChoices = [
 
     option1: {
       description: "Buy lots of meat and packaged frozen meals",
-      image: require("@/assets/images/frozenmeat.jpg"),
+      image: require("@/assets/images/grocerydelivery.jpg"),
       healthEffect: 2,
       pollutionEffect: 6,
       happinessEffect: 5,
@@ -269,7 +269,7 @@ export const linkedChoices = [
     },
     option2: {
       description: "Plan a mostly plant-based, low-waste menu",
-      image: require("@/assets/images/plantbased.jpg"),
+      image: require("@/assets/images/grocerydelivery.jpg"),
       healthEffect: 5,
       pollutionEffect: -4,
       happinessEffect: 4,
