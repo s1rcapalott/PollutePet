@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,41 +6,43 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  TextInput,
+  FlatList,
+  TouchableHighlight,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+
+const cities = ["United States", "China", "Japan", "Spain"]; // List of cities
 
 const GameScreen = ({ navigation }) => {
-  const [selectedLocation, setSelectedLocation] = useState(""); // State for storing selected location
+  const [selectedLocation, setSelectedLocation] = useState(""); // State for storing the selected location
+  const [filteredCities, setFilteredCities] = useState([]); // State for filtering cities based on input
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
-  // Fetch the saved city when the component mounts
-  useEffect(() => {
-    const getSavedLocation = async () => {
-      try {
-        const savedLocation = await AsyncStorage.getItem("selectedLocation");
-        if (savedLocation) {
-          setSelectedLocation(savedLocation); // Set the saved location in state
-        }
-      } catch (error) {
-        console.error("Error fetching saved location:", error);
-      }
-    };
-    getSavedLocation(); // Call the function to get saved location on mount
-  }, []);
-
-  // Handle when the user starts the game
-  const handleStart = async () => {
-    if (selectedLocation) {
-      try {
-        // Save the selected location to AsyncStorage
-        await AsyncStorage.setItem("selectedLocation", selectedLocation);
-        navigation.navigate("Play"); // Navigate to the Play screen
-      } catch (error) {
-        Alert.alert("Error saving your city choice.");
-        console.error("Error saving selected city:", error);
-      }
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    // Filter cities based on the search query
+    if (query) {
+      const results = cities.filter((city) =>
+        city.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCities(results);
     } else {
-      // Alert if no city is selected
+      setFilteredCities([]);
+    }
+  };
+
+  const handleCitySelect = (city) => {
+    setSelectedLocation(city); // Set the selected city
+    setSearchQuery(city); // Update search query with selected city
+    setFilteredCities([]); // Clear the filtered results
+  };
+
+  const handleStart = () => {
+    if (selectedLocation) {
+      // If a location is selected, navigate to the next screen
+      navigation.navigate("Play", { cityName: selectedLocation });
+    } else {
+      // Alert if no location is selected
       Alert.alert("Please select a starting city.");
     }
   };
@@ -54,19 +56,31 @@ const GameScreen = ({ navigation }) => {
       <View style={styles.container}>
         <Text style={styles.title}>Choose Your Starting Location</Text>
 
-        {/* Picker to select the starting location */}
-        <Picker
-          selectedValue={selectedLocation}
-          style={styles.picker}
-          onValueChange={(itemValue) => setSelectedLocation(itemValue)}
-        >
-          <Picker.Item label="United States" value="United States" />
-          <Picker.Item label="China" value="China" />
-          <Picker.Item label="Japan" value="Japan" />
-          <Picker.Item label="Spain" value="Spain" />
-        </Picker>
+        {/* TextInput for city search */}
+        <TextInput
+          value={searchQuery}
+          onChangeText={handleSearch}
+          placeholder="Type a country name"
+          style={styles.textInput}
+        />
 
-        {/* Enter button to proceed */}
+        {/* Show the list of filtered cities if the search query is not empty */}
+        {filteredCities.length > 0 && (
+          <FlatList
+            data={filteredCities}
+            renderItem={({ item }) => (
+              <TouchableHighlight onPress={() => handleCitySelect(item)}>
+                <View style={styles.listItem}>
+                  <Text style={styles.listItemText}>{item}</Text>
+                </View>
+              </TouchableHighlight>
+            )}
+            keyExtractor={(item) => item}
+            style={styles.list}
+          />
+        )}
+
+        {/* Enter button to proceed to the next screen */}
         <TouchableOpacity style={styles.button} onPress={handleStart}>
           <Text style={styles.buttonText}>Enter</Text>
         </TouchableOpacity>
@@ -95,13 +109,31 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 20,
   },
-  picker: {
+  textInput: {
     height: 50,
     width: "100%",
-    color: "#fff",
-    marginBottom: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
     borderRadius: 10,
+    paddingLeft: 10,
+    marginBottom: 20,
+    color: "#fff",
     backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  list: {
+    width: "100%",
+    maxHeight: 200,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    borderRadius: 10,
+  },
+  listItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  listItemText: {
+    color: "#fff",
+    fontSize: 18,
   },
   button: {
     backgroundColor: "#4CAF50",
