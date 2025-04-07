@@ -25,6 +25,38 @@ import { determineEnding } from "@/ending";
 import tempData from "../temp.json";
 import airData from "../airData.json";
 
+const getYearlyMessage = (year, pollutionLevel, health, temperature, happiness) => {
+  if (year == 2020 && pollutionLevel < 30) {
+    return "Lockdowns cleared the skies for the first tiem in decades.";
+  }
+
+  if (pollutionLevel > 80) {
+    return "The air is thick and heavy... breathing becoms difficult.";
+  }
+  else if (pollutionLevel > 60) {
+    return "Your pet coughs more often. The air quality is bad.";
+  }
+
+  if (health < 40) {
+    return "Health is deteriorating. People look tired and sick.";
+  }
+  else if (health > 90) {
+    return "Everyone's thriving thanks to your green choices!";
+  }
+
+  if (temperature > 3) {
+    return "It's unusually hot. Climate change is accelerating.";
+  }
+
+  if (happiness < 30) {
+    return "Your pet seems sad. Maybe they miss nature?";
+  } else if (happiness > 80) {
+    return "Your pet is joyful and full of life!";
+  }
+
+  return "The city is doing okay... for now.";
+}
+
 const PlayScreen = ({ route }) => {
   interface Choice {
     prompt: string;
@@ -101,13 +133,7 @@ const PlayScreen = ({ route }) => {
 
   useEffect(() => {
     if (year !== 2000) {
-      const msg =
-        pollutionLevel > 70
-          ? "The air is getting worse... people are coughing."
-          : health < 50
-          ? "Your community’s health is declining."
-          : "The city is doing okay... for now.";
-
+      const msg = getYearlyMessage(year, pollutionLevel, health, temperature, happiness);
       setYearMessage(msg);
       setYearModalVisible(true);
 
