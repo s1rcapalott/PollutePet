@@ -27,10 +27,10 @@ const endingImages = {
   climate_hero: require("../assets/images/hero.png"),
 };
 const endingBack = {
-  death: require("../assets/images/deathEnd.png"),
+  death: require("../assets/images/deadEnd.jpg"),
   bad: require("../assets/images/badEnd.png"),
   neutral: require("../assets/images/neutral.png"),
-  good: require("../assets/images/good.png"),
+  good: require("../assets/images/nature.jpg"),
   climate_hero: require("../assets/images/heroEnd.png"),
 };
 
@@ -42,7 +42,7 @@ const GameOverScreen = ({ route, navigation }) => {
   const back = endingBack[ending];
 
   return (
-    <ImageBackground source={back} style={styles.background}>
+    <ImageBackground source={back} style={styles.background} resizeMode="cover">
       <View style={styles.container}>
         <Text style={styles.title}>Game Over</Text>
 
@@ -72,9 +72,10 @@ const GameOverScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1, // Fill the available space
+    height: "100%", // Full height
     justifyContent: "center", // Center the content
     alignItems: "center", // Center horizontally
-    resizeMode: "contain", // Make the background image fit without stretching
+    resizeMode: "cover", // Make the background image fit without stretching
   },
   container: {
     flex: 1,
