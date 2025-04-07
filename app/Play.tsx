@@ -34,26 +34,29 @@ const getPetImage = (pollutionLevel, happiness) => {
     return require("@/assets/images/happyPet.png");
   }
   return require("@/assets/images/Pet.png");
-}
-const getYearlyMessage = (year, pollutionLevel, health, temperature, happiness) => {
+};
+const getYearlyMessage = (
+  year,
+  pollutionLevel,
+  health,
+  temperature,
+  happiness
+) => {
   if (year == 2020 && pollutionLevel < 30) {
     return "Lockdowns cleared the skies for the first tiem in decades.";
   }
 
   if (pollutionLevel > 100) {
-    return "The world is on the brink of collapsing."
-  }
-  else if (pollutionLevel > 80) {
+    return "The world is on the brink of collapsing.";
+  } else if (pollutionLevel > 80) {
     return "The air is thick and heavy... breathing becoms difficult.";
-  }
-  else if (pollutionLevel > 60) {
+  } else if (pollutionLevel > 60) {
     return "Your pet coughs more often. The air quality is bad.";
   }
 
   if (health < 40) {
     return "Health is deteriorating. People look tired and sick.";
-  }
-  else if (health > 90) {
+  } else if (health > 90) {
     return "Everyone's thriving thanks to your green choices!";
   }
 
@@ -68,7 +71,7 @@ const getYearlyMessage = (year, pollutionLevel, health, temperature, happiness) 
   }
 
   return "The city is doing okay... for now.";
-}
+};
 
 const PlayScreen = ({ route }) => {
   interface Choice {
@@ -170,7 +173,13 @@ const PlayScreen = ({ route }) => {
 
   useEffect(() => {
     if (year !== 2000) {
-      const msg = getYearlyMessage(year, pollutionLevel, health, temperature, happiness);
+      const msg = getYearlyMessage(
+        year,
+        pollutionLevel,
+        health,
+        temperature,
+        happiness
+      );
       setYearMessage(msg);
       setYearModalVisible(true);
 
@@ -206,8 +215,8 @@ const PlayScreen = ({ route }) => {
       <View style={commonStyles.container}>
         <Image
           source={getPetImage(pollutionLevel, happiness)}
-          style = {commonStyles.character}
-          resizeMode = "contain"
+          style={commonStyles.character}
+          resizeMode="contain"
         />
         <ProgressBar
           label="Health"

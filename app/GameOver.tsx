@@ -29,7 +29,7 @@ const endingImages = {
 const endingBack = {
   death: require("../assets/images/deadEnd.jpg"),
   bad: require("../assets/images/badEnd.png"),
-  neutral: require("../assets/images/neutral.png"),
+  neutral: require("../assets/images/cityBasic.png"),
   good: require("../assets/images/nature.jpg"),
   climate_hero: require("../assets/images/heroEnd.png"),
 };
@@ -44,8 +44,8 @@ const GameOverScreen = ({ route, navigation }) => {
   return (
     <ImageBackground
       source={back}
-      style={styles.background}
-      resizeMode="cover" // Keep only one resizeMode (as prop)
+      style={styles.background} // Ensuring it fills the entire screen
+      resizeMode="cover" // Maintain the correct aspect ratio
     >
       <View style={styles.container}>
         <Text style={styles.title}>Game Over</Text>
@@ -75,56 +75,56 @@ const GameOverScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1, // Fill the available space
-    height: "100%", // Full height
-    justifyContent: "center", // Center the content
+    flex: 1, // Make sure it takes up the entire screen
+    justifyContent: "center", // Center content vertically
     alignItems: "center", // Center horizontally
-    resizeMode: "cover", // Make the background image fit without stretching
+    width: "100%",
+    height: "100%",
   },
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay for readability
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
   },
   title: {
-    fontSize: 40, // Larger title for emphasis
+    fontSize: 40,
     color: "#fff",
-    fontWeight: "bold", // Bold title for better visibility
+    fontWeight: "bold",
     marginBottom: 20,
   },
   image: {
-    width: 200, // Larger image size
+    width: 200,
     height: 200,
     resizeMode: "contain", // Maintain aspect ratio
     marginBottom: 30,
-    borderRadius: 10, // Add rounded corners to the image
-    borderWidth: 3, // Add border around the image
-    borderColor: "#fff", // White border for contrast
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: "#fff",
   },
   message: {
-    fontSize: 20, // Slightly larger text for the message
-    color: "#ccc", // Light grey color for the message
+    fontSize: 20,
+    color: "#ccc",
     marginBottom: 40,
     textAlign: "center",
-    lineHeight: 30, // Increase line height for readability
-    paddingHorizontal: 20, // Padding for text on sides
+    lineHeight: 30,
+    paddingHorizontal: 20,
   },
   button: {
-    backgroundColor: "#4CAF50", // Green button
-    paddingVertical: 15, // Increase vertical padding for a bigger button
+    backgroundColor: "#4CAF50",
+    paddingVertical: 15,
     paddingHorizontal: 40,
-    borderRadius: 15, // Rounded corners for the button
-    shadowColor: "#000", // Shadow for the button
+    borderRadius: 15,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 20, // Larger font for better readability
-    fontWeight: "bold", // Bold text for the button
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
 
