@@ -31,6 +31,10 @@ const GameScreen = ({ navigation }) => {
     }
   };
 
+  const testEnding = (testEnding) => {
+    navigation.replace("GameOver", { ending: testEnding });
+  };
+
   const handleCitySelect = (city) => {
     setSelectedLocation(city); // Set the selected city
     setSearchQuery(city); // Update search query with selected city
