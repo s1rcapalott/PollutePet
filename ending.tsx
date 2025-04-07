@@ -30,14 +30,14 @@ export const determineEnding = ({
     temperature < 70 &&
     health > 90 &&
     happiness > 80 &&
-    year > 2020
+    year > 2003
   ) {
     return "climate_hero";
   }
 
   if (health > 60 && happiness > 50 && year > 2020) return "good";
 
-  if (year > 2020) {
+  if (year > 2003) {
     return "neutral";
   }
 
