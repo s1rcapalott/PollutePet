@@ -18,11 +18,9 @@ export const determineEnding = ({
   if (health <= 0) return "death";
 
   if (
-    airPollution > 90 &&
-    temperature > 100 &&
-    happiness < 20 &&
-    health < 40 &&
-    year >= 2003
+    (airPollution > 90 && temperature > 100 && happiness < 20 && health < 40 && year >= 2020) || 
+    airPollution >= 95 || 
+    happiness < 0 // 
   ) {
     return "bad";
   }

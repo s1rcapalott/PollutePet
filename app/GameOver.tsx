@@ -8,6 +8,8 @@ import {
   ImageBackground,
 } from "react-native";
 
+
+
 const endingMessages = {
   death:
     "Your choices led to uncontrolled pollution and destruction. The oceans are filled with plastic, and the skies are thick with smoke from industrial factories. The land is barren, with no green spaces, only factories and chemical plants that have pushed the natural balance too far. The overall health of the world is in decline, and there’s no coming back from this trajectory.💀",
@@ -36,6 +38,7 @@ const endingBack = {
 
 const GameOverScreen = ({ route, navigation }) => {
   const { ending } = route.params;
+  console.log("ENDING:", ending);
   const message = endingMessages[ending] || "Game Over";
   const image = endingImages[ending];
   const back = endingBack[ending];
