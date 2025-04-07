@@ -230,7 +230,7 @@ const PlayScreen = ({ route }) => {
         <ProgressBar
           label="Global Temp"
           value={temperature}
-          max={2.0}
+          max={100.0}
           icon="thermometer-half"
           color="#FF5722"
         />
