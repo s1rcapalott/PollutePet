@@ -64,6 +64,10 @@ const PlayScreen = ({ route }) => {
   const [showEffectText, setShowEffectText] = useState(false); // State to control showing the effect text
   const [effectText, setEffectText] = useState(""); // State to store the effect text
 
+  const testEnding = (testEnding) => {
+    navigation.replace("GameOver", { ending: testEnding });
+  };
+
   const resetGame = () => {
     // Reset all the relevant states
     setHealth(100); // Initial health
@@ -113,7 +117,7 @@ const PlayScreen = ({ route }) => {
         setYear((prevYear) => prevYear + 1);
         // block until modal/choice done
       }
-    }, 1000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [isBusy]);
@@ -209,10 +213,8 @@ const PlayScreen = ({ route }) => {
         >
           <View style={commonStyles.modalOverlay}>
             {showEffectText ? (
-              // Show the effect text in the center
               <Text style={commonStyles.effectText}>{effectText}</Text>
             ) : (
-              // Show the normal modal content (choices)
               <>
                 <Text style={commonStyles.promptText}>
                   {currentChoice?.prompt}
@@ -233,7 +235,7 @@ const PlayScreen = ({ route }) => {
                         setEffectText,
                         setIsBusy
                       );
-                      setIsBusy(false); // Set isBusy to true to avoid new input during effect text display
+                      setIsBusy(false);
                     }}
                   >
                     <Image
@@ -260,7 +262,7 @@ const PlayScreen = ({ route }) => {
                         setEffectText,
                         setIsBusy
                       );
-                      setIsBusy(false); // Set isBusy to true to avoid new input during effect text display
+                      setIsBusy(false);
                     }}
                   >
                     <Image
@@ -277,6 +279,20 @@ const PlayScreen = ({ route }) => {
           </View>
         </Modal>
 
+        {/* Test Ending Buttons */}
+        <View style={styles.testButtonsContainer}>
+          {["death", "bad", "neutral", "good", "climate_hero"].map((ending) => (
+            <TouchableOpacity
+              key={ending}
+              style={styles.testButton}
+              onPress={() => testEnding(ending)}
+            >
+              <Text style={styles.testButtonText}>Test {ending}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Existing buttons */}
         <TouchableOpacity
           style={commonStyles.button}
           onPress={() =>
@@ -308,5 +324,30 @@ const PlayScreen = ({ route }) => {
     </ImageBackground>
   );
 };
+
+// Separate CSS styling for test buttons
+const styles = StyleSheet.create({
+  testButtonsContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  testButton: {
+    backgroundColor: "#FF8C00", // Orange color for test buttons
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginHorizontal: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  testButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
 
 export default PlayScreen;
