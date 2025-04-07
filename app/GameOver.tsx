@@ -8,8 +8,6 @@ import {
   ImageBackground,
 } from "react-native";
 
-
-
 const endingMessages = {
   death:
     "Your choices led to uncontrolled pollution and destruction. The oceans are filled with plastic, and the skies are thick with smoke from industrial factories. The land is barren, with no green spaces, only factories and chemical plants that have pushed the natural balance too far. The overall health of the world is in decline, and there’s no coming back from this trajectory.💀",
@@ -29,11 +27,11 @@ const endingImages = {
   climate_hero: require("../assets/images/hero.png"),
 };
 const endingBack = {
-  death: require("../assets/images/badEnd.png"),
+  death: require("../assets/images/deathEnd.png"),
   bad: require("../assets/images/badEnd.png"),
   neutral: require("../assets/images/neutral.png"),
   good: require("../assets/images/good.png"),
-  climate_hero: require("../assets/images/hero.png"),
+  climate_hero: require("../assets/images/heroEnd.png"),
 };
 
 const GameOverScreen = ({ route, navigation }) => {
