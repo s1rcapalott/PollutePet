@@ -216,7 +216,7 @@ export const linkedChoices = [
     },
     option2: {
       description: "Walk to the local market with reusable bags",
-      image: require("@assets/images.farmerswalk.png"),
+      image: require("@/assets/images/farmerswalk.jpg"),
       healtEffect: 2,
       pollutionEffect: -2,
       happinessEffect: 2,

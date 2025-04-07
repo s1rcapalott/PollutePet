@@ -30,7 +30,10 @@ const getYearlyMessage = (year, pollutionLevel, health, temperature, happiness) 
     return "Lockdowns cleared the skies for the first tiem in decades.";
   }
 
-  if (pollutionLevel > 80) {
+  if (pollutionLevel > 100) {
+    return "The world is on the brink of collapsing."
+  }
+  else if (pollutionLevel > 80) {
     return "The air is thick and heavy... breathing becoms difficult.";
   }
   else if (pollutionLevel > 60) {
@@ -126,7 +129,7 @@ const PlayScreen = ({ route }) => {
         setYear((prevYear) => prevYear + 1);
         setIsBusy(true); // block until modal/choice done
       }
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [isBusy]);
