@@ -42,7 +42,11 @@ const GameOverScreen = ({ route, navigation }) => {
   const back = endingBack[ending];
 
   return (
-    <ImageBackground source={back} style={styles.background} resizeMode="cover">
+    <ImageBackground
+      source={back}
+      style={styles.background}
+      resizeMode="cover" // Keep only one resizeMode (as prop)
+    >
       <View style={styles.container}>
         <Text style={styles.title}>Game Over</Text>
 
@@ -79,11 +83,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent dark background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    paddingTop: 40, // Space from the top
   },
   title: {
     fontSize: 40, // Larger title for emphasis
