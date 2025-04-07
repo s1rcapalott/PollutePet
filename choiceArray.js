@@ -1,3 +1,4 @@
+// choices.js
 export const linkedChoices = [
   {
     prompt: "It's time to go to school, how will you send your pet to school?",
@@ -5,7 +6,7 @@ export const linkedChoices = [
     option1: {
       description: "Drive to school",
       image: require("@/assets/images/driving.jpg"),
-      healthEffect: -3,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -21,7 +22,6 @@ export const linkedChoices = [
       effectText: "Biking produces zero emissions and improves cardiovascular health. If just 1 out of every 10 people biked instead of drove, global carbon emissions could drop by millions of tons annually."
     },
     seen: false,
-    
   },
   {
     prompt: "Your pet wants to do an activity today! What will you choose to do with your pet?",
@@ -33,19 +33,18 @@ export const linkedChoices = [
       pollutionEffect: -5,
       happinessEffect: 3,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
-      effectText: "Spending timee in green spaces reduces stress and improves air quality. Trees and plants in parks act as natural air filters by absorbing carbon dioxide and other pollutants."
+      effectText: "Spending time in green spaces reduces stress and improves air quality. Trees and plants in parks act as natural air filters by absorbing carbon dioxide and other pollutants."
     },
     option2: {
       description: "Go on a motorcycle in the dunes",
       image: require("@/assets/images/motorcycle.jpg"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 6,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Off-raod vehicles like motorcycles release harmful exhaust gases and stir up dust that contributres to local air pollution. Their high emissions and fuel use also increase your carbon footprint."
     },
     seen: false,
-    
   },
   {
     prompt: "It's a hot summer day, your pet is complaining about the heat. What will you do?",
@@ -67,8 +66,7 @@ export const linkedChoices = [
       happinessEffect: -2,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Natural ventilitaion reduces both indoor air pollutants and energy consumption. In cities, reducing AC usage during peak heat can also preven 'brownouts' from overloaded power grids."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "Your pet is feeling a little risky and somehow convinced you to be apart of the adventure. What will you two deliquents do?",
@@ -76,7 +74,7 @@ export const linkedChoices = [
     option1: {
       description: "Burn down a nuclear power plant",
       image: require("@/assets/images/nuclearpowerplant.jpg"),
-      healthEffect: -6,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -90,8 +88,8 @@ export const linkedChoices = [
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Many cancer-causing pollutants like benzene and formaldehyde come from buring fossil fuels. So clean air = healthier pets and people."
-    },
-    seen: false,
+    }
+
   },
   {
     prompt: "Your pet wants to give back to the community what will you do together?",
@@ -113,8 +111,7 @@ export const linkedChoices = [
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Animal shelters use lots of energy for lighting and AC. Volunteering can help raise awareness about how shelters can go green too."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "You discover your pet's favorite toy is made by a factory that uses child labor. What will you do?",
@@ -122,7 +119,7 @@ export const linkedChoices = [
     option1: {
       description: "Keep buying the toy because it makes your pet happy.",
       image: require("@/assets/images/pettoy.jpg"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 3,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -136,8 +133,7 @@ export const linkedChoices = [
       happinessEffect: 2,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Local toy makers often use less packaging, cleaner materials, and fewer transportation miles."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "Your city is replacing green parks with luxury condos. You can protest or proft. What will you do?",
@@ -154,13 +150,12 @@ export const linkedChoices = [
     option2: {
       description: "Invest early and earn big returns, make it easy to provide for your pet.",
       image: require("@/assets/images/luxurycondos.png"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
-      effectText: "Luxury condos often mean more air conditioning, more cats, and more emissiosn. Gentrification is not just social - it can be environmental too."
+      effectText: "Luxury condos often mean more air conditioning, more cats, and more emissions. Gentrification is not just social - it can be environmental too."
     },
-    seen: false,
   },
   {
     prompt: "You can build your pet a dream house, but it requires cutting down a forest. What will you do?",
@@ -168,7 +163,7 @@ export const linkedChoices = [
     option1: {
       description: "Go ahead and build the house",
       image: require("@/assets/images/treecutting.jpg"),
-      healthEffect: -5,
+      healthEffect: -10,
       pollutionEffect: 6,
       happinessEffect: 7,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -182,8 +177,7 @@ export const linkedChoices = [
       happinessEffect: 3,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Tiny homes have a tiny carbon footprint! less space means heating, cooling, and lighting - making them surprisingly powerful against climate change."
-    },
-    seen: false,
+    }
   },
 
   {
@@ -192,7 +186,7 @@ export const linkedChoices = [
     option1: {
       description: "Accept and enjoy unlimited power",
       image: require("@/assets/images/coalpower.webp"),
-      healthEffect: -3,
+      healthEffect: -10,
       pollutionEffect: 9,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -201,13 +195,12 @@ export const linkedChoices = [
     option2: {
       description: "Invest in solar panels instead",
       image: require("@/assets/images/solarpanel.jpg"),
-      healthEffect: 4,
+      healtEffect: 4,
       pollutionEffect: -4,
       happinessEffect: 3,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Solar panels pay back their environmental cost in just 1-4 years - then provide clean energy for 25+ years. That's long-term pet care energy!"
-    },
-    seen: false,
+    }
   },
   {
     prompt: "It's grocery day! Your pet is excited for some snacks! How will you shop?",
@@ -215,7 +208,7 @@ export const linkedChoices = [
     option1: {
       description: "Order everything online with express delivery",
       image: require("@/assets/images/grocerydelivery.jpg"),
-      healthEffect: -1,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 3,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -223,14 +216,13 @@ export const linkedChoices = [
     },
     option2: {
       description: "Walk to the local market with reusable bags",
-      image: require("@/assets/images/grocerydelivery.jpg"),
-      healthEffect: 2,
+      image: require("@/assets/images/farmerswalk.jpg"),
+      healtEffect: 2,
       pollutionEffect: -2,
       happinessEffect: 2,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Walking not only emits zero carbon dioxide, but reusable bags can eliminate over 5000 sinlge-use plastic bags across their lifetime."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "Your pet accidentally dropped its phone, now you have to buy a new one. What do you decide?",
@@ -238,7 +230,7 @@ export const linkedChoices = [
     option1: {
       description: "Get the latest model and throw away the old one",
       image: require("@/assets/images/newphone.webp"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 4,
       happinessEffect: 4,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -247,36 +239,34 @@ export const linkedChoices = [
     option2: {
       description: "Buy a refurbished phone and recycle your old one",
       image: require("@/assets/images/refurbished.webp"),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: -3,
       happinessEffect: -2,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Refurbishing electronics uses up to 80% less energy than manufacturing new ones - and keeps toxic e-waste out of landfills."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "You're going to be busy this whole week so you decide to meal plan. Which choice would you take?",
 
     option1: {
       description: "Buy lots of meat and packaged frozen meals",
-      image: require("@/assets/images/grocerydelivery.jpg"),
-      healthEffect: 2,
+      image: require("@/assets/images/frozenMeat.webp"),
+      healtEffect: 2,
       pollutionEffect: 6,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "A single cow can burp out up to 100 kg of methane a year - thats equivalent to driving a car 1,200 miles."
     },
     option2: {
-      description: "Plan a mostly plant-based, low-waste menu",
-      image: require("@/assets/images/grocerydelivery.jpg"),
+      desctription: "Plan a mostly plant-based, low-waste menu",
+      image: require("@/assets/images/plantbased.jpg"),
       healthEffect: 5,
       pollutionEffect: -4,
       happinessEffect: 4,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Switching to a plant-based diet can cut your food-related carbon footprint by up to 73% - and it's deliciously effective."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "You are headed to to a pet shop to get your pet groomed, but you are running late to your appointment. How will you get there?",
@@ -298,8 +288,7 @@ export const linkedChoices = [
       happinessEffect: 1,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Public transportation emits up to 45% less carbon dioxide per passenger mile than private vehicles."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "You and your pet are doing spring cleaning. How will you deal with the old clothes and toys?",
@@ -307,7 +296,7 @@ export const linkedChoices = [
     option1: {
       description: "Throw them all in the trash",
       image: require('@/assets/images/clothestrash.jpg'),
-      healthEffect: -2,
+      healthEffect: -10,
       pollutionEffect: 5,
       happinessEffect: 1,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -321,8 +310,7 @@ export const linkedChoices = [
       happinessEffect: 3,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText:"Repurposing just 1 ton of textiles saves 20 tons of carbon dioxide emission."
-    },
-    seen: false,
+    }
   },
   {
     prompt: "You're planning a weekend gataway for you and your pet. What do you book?",
@@ -330,7 +318,7 @@ export const linkedChoices = [
     option1: {
       description: "Round-trip flight to a distant city",
       image: require('@/assets/images/airtravel.jpg'),
-      healthEffect: -2,
+      healthEffect: -5,
       pollutionEffect: 7,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
@@ -344,11 +332,7 @@ export const linkedChoices = [
       happinessEffect: 4,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
       effectText: "Local nature trips not only reduce emissions - they boost your mental health and help support conservation-focused areas."
-    },
-    seen: false,
+    }
   },
-
-
-
   // Add more linked choices as needed
 ];
