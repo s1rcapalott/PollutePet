@@ -1,22 +1,22 @@
-
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity,Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 const endingMessages = {
   death: "Your Tamagotchi didn't make it 💀",
   bad: "The pollution was too much... 🏭",
   neutral: "Your Tamagotchi survived, but just barely.",
   good: "You managed to keep things stable!",
-  climate_hero: "Amazing! You helped your Tamagotchi thrive in a clean world 🌎✨",
+  climate_hero:
+    "Amazing! You helped your Tamagotchi thrive in a clean world 🌎✨",
 };
 
-const endingImages ={
+const endingImages = {
   death: require("@/assets/images/death1.png"),
   bad: require("@/assets/images/bad.png"),
   neutral: require("@/assets/images/neutral.png"),
   good: require("@/assets/images/good.png"),
   climate_hero: require("@/assets/images/hero.png"),
-}
+};
 const GameOverScreen = ({ route, navigation }) => {
   const { ending } = route.params;
   const message = endingMessages[ending] || "Game Over";
@@ -30,7 +30,13 @@ const GameOverScreen = ({ route, navigation }) => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => {
+          console.log("Navigating to Home");
+          navigation.reset({
+            index: 0, // Reset to the first route in the stack
+            routes: [{ name: "Home" }], // Navigate to the Home screen
+          });
+        }}
       >
         <Text style={styles.buttonText}>Play Again</Text>
       </TouchableOpacity>

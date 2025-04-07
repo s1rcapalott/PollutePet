@@ -14,7 +14,6 @@ import { commonStyles } from "@/commonStyles";
 import { linkedChoices } from "../choiceArray";
 import {
   increasePollution,
-  resetGame,
   getBackgroundImage,
   fadeIn,
   applyChoiceEffect,
@@ -65,9 +64,29 @@ const PlayScreen = ({ route }) => {
   const [showEffectText, setShowEffectText] = useState(false); // State to control showing the effect text
   const [effectText, setEffectText] = useState(""); // State to store the effect text
 
+  const resetGame = () => {
+    // Reset all the relevant states
+    setHealth(100); // Initial health
+    setHappiness(100); // Initial happiness
+    setTemperature(60); // Initial temperature
+    setPollutionLevel(0); // Initial pollution level
+    setYear(2000); // Starting year
+    setYearMessage(""); // Reset year message
+    setYearModalVisible(false); // Hide the year modal
+    setIsModalVisible(false); // Hide any other modals
+    setIsBusy(false); // Reset the busy flag
+    setSeenChoices(new Set()); // Reset the set of seen choices
+    setCurrentChoice(null); // Reset the current choice
+    setShowEffectText(false); // Hide effect text
+    setEffectText(""); // Reset effect text
+
+    // Additional resets if you have more states, like choices or game-specific data
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isBusy) {
+        setIsBusy(true);
         const tempEntry = tempData.find((entry) => entry.Year === year);
         if (tempEntry) {
           setTemperature(() => {
@@ -92,7 +111,7 @@ const PlayScreen = ({ route }) => {
         }
 
         setYear((prevYear) => prevYear + 1);
-        setIsBusy(true); // block until modal/choice done
+        // block until modal/choice done
       }
     }, 1000);
 
@@ -274,7 +293,7 @@ const PlayScreen = ({ route }) => {
 
         <TouchableOpacity
           style={commonStyles.secondaryButton}
-          onPress={() => resetGame(setHealth, setPollutionLevel)}
+          onPress={() => resetGame()}
         >
           <Text style={commonStyles.secondaryButtonText}>Reset Game</Text>
         </TouchableOpacity>
