@@ -154,7 +154,7 @@ export const linkedChoices = [
       pollutionEffect: 5,
       happinessEffect: 5,
       temperatureEffect: (this.pollutionEffect * 0.02) - (this.healthEffect * 0.005),
-      effectText: "Luxury condos often mean more air conditioning, more cats, and more emissiosn. Gentrification is not just social - it can be environmental too."
+      effectText: "Luxury condos often mean more air conditioning, more cats, and more emissions. Gentrification is not just social - it can be environmental too."
     },
   },
   {

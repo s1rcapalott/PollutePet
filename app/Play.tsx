@@ -24,7 +24,18 @@ import ProgressBar from "./progressbar";
 import { determineEnding } from "@/ending";
 import tempData from "../temp.json";
 import airData from "../airData.json";
-
+const getPetImage = (pollutionLevel, happiness) => {
+  if (pollutionLevel > 70) {
+    return require("@/assets/images/coughingPet.png");
+  }
+  if (happiness < 30) {
+    return require("@/assets/images/superSadPet.png");
+  }
+  if (happiness > 80) {
+    return require("@/assets/images/happyPet.png");
+  }
+  return require("@/assets/images/Pet.png");
+}
 const getYearlyMessage = (year, pollutionLevel, health, temperature, happiness) => {
   if (year == 2020 && pollutionLevel < 30) {
     return "Lockdowns cleared the skies for the first tiem in decades.";
@@ -171,9 +182,9 @@ const PlayScreen = ({ route }) => {
     >
       <View style={commonStyles.container}>
         <Image
-          source={require("../assets/images/happyPet.png")}
-          style={commonStyles.character}
-          resizeMode="contain"
+          source={getPetImage(pollutionLevel, happiness)}
+          style = {commonStyles.character}
+          resizeMode = "contain"
         />
         <ProgressBar
           label="Health"
