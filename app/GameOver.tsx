@@ -2,6 +2,8 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity,Image } from "react-native";
 
+
+
 const endingMessages = {
   death: "Your Tamagotchi didn't make it 💀",
   bad: "The pollution was too much... 🏭",
@@ -19,6 +21,7 @@ const endingImages ={
 }
 const GameOverScreen = ({ route, navigation }) => {
   const { ending } = route.params;
+  console.log("ENDING:", ending);
   const message = endingMessages[ending] || "Game Over";
   const image = endingImages[ending];
 
